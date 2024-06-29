@@ -1,66 +1,106 @@
 package com.formenshop.Fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.formenshop.Adapters.CategoriesAdapter;
+import com.formenshop.Models.CategoriesModel;
+import com.formenshop.Models.TrendingProducts;
 import com.formenshop.R;
+import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private ImageView bannerHome, midBanner1, midBanner2, botBanner;
+    private Button signin, viewAllBtn;
+    private RecyclerView nearMeView, categoriesView, trendingView, productsAcrossVietNam;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private CategoriesAdapter mAdapter3;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ArrayList<TrendingProducts> trendingList = new ArrayList<>();
+    private ArrayList<CategoriesModel> categoriesList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        initialize(view);
+
+        // Load data into views
+        loadBanner();
+        addCategories();
+        loadTrendingData();
+        setupAdapters();
+
+        viewAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implement view all functionality
+            }
+        });
+
+        return view;
+    }
+
+    private void initialize(View view) {
+        bannerHome = view.findViewById(R.id.bannerHome);
+        midBanner1 = view.findViewById(R.id.midBanner1);
+        midBanner2 = view.findViewById(R.id.midBanner2);
+        botBanner = view.findViewById(R.id.botBanner);
+        signin = view.findViewById(R.id.signin);
+        viewAllBtn = view.findViewById(R.id.viewAllBtn);
+        nearMeView = view.findViewById(R.id.nearMeView);
+        categoriesView = view.findViewById(R.id.categoriesView);
+        trendingView = view.findViewById(R.id.trendingView);
+        productsAcrossVietNam = view.findViewById(R.id.productsAcrossVietNam);
+
+        bannerHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implement banner click functionality
+            }
+        });
+    }
+
+    private void setupAdapters() {
+    }
+
+    private void loadBanner() {
+        Picasso.get().load(R.drawable.poster1).placeholder(R.drawable.poster1).into(bannerHome);
+        Picasso.get().load(R.drawable.img3).placeholder(R.drawable.img3).into(midBanner1);
+        Picasso.get().load(R.drawable.poster3).placeholder(R.drawable.poster3).into(midBanner2);
+        Picasso.get().load(R.drawable.poster2).placeholder(R.drawable.poster2).into(botBanner);
+    }
+
+    private void loadTrendingData() {
+        trendingList.clear();
+    }
+
+    private void addCategories() {
+        categoriesList.clear();
+        categoriesList.add(new CategoriesModel("https://m.media-amazon.com/images/I/81oBlS3rKXL._UY575_.jpg", "Jewellery"));
+        categoriesList.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41lICpaGo9L._SX300_SY300_QL70_FMwebp_.jpg", "Home Decor"));
+        categoriesList.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41wKsI9yrZL._SY300_SX300_QL70_FMwebp_.jpg", "Ayurvedic"));
+        categoriesList.add(new CategoriesModel("https://m.media-amazon.com/images/I/911EKUNq1+L._SL1500_.jpg", "Furniture"));
     }
 }

@@ -31,6 +31,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -43,11 +44,17 @@ dependencies {
     implementation(libs.annotation)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.databinding:databinding-runtime:4.2.1")
+    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.fragment:fragment:1.3.5")
+    implementation("androidx.viewpager:viewpager:1.0.0")
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:28.4.0"))
@@ -58,6 +65,4 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.github.Cutta:GifView:1.4")
-
-    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 }

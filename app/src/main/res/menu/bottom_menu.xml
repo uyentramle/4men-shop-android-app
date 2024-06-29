@@ -5,13 +5,13 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/home" />
 
-    <!--    <item-->
-    <!--        android:id="@+id/search"-->
-    <!--        android:icon="@drawable/ic_baseline_search_24"-->
-    <!--        android:title="Search" />-->
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/search" />
 
-    <!--    <item-->
-    <!--        android:id="@+id/profile"-->
-    <!--        android:icon="@drawable/ic_baseline_face_24"-->
-    <!--        android:title="@string/my_profile" />-->
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_baseline_face_24"
+        android:title="@string/my_profile" />
 </menu>

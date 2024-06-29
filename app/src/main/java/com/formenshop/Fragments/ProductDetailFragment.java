@@ -1,66 +1,88 @@
 package com.formenshop.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import com.formenshop.Models.TrendingProducts;
 import com.formenshop.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProductDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ProductDetailFragment extends Fragment {
+public class ProductDetailFragment extends BottomSheetDialogFragment {
+    private Context mContext;
+    private TrendingProducts trendingProducts;
+    private ArrayList<TrendingProducts> savedProducts = new ArrayList<>();
+    private ImageView imageView, imageView2, like;
+    private Button buyBtn, report;
+    private RelativeLayout parent;
+    private CardView amazonIcon;
+    private int click = 0;
+    private TextView productName, productPrice, productDesc;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ProductDetailFragment() {
-        // Required empty public constructor
+    public ProductDetailFragment(Context mContext, TrendingProducts trendingProducts) {
+        this.mContext = mContext;
+        this.trendingProducts = trendingProducts;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProductDetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProductDetailFragment newInstance(String param1, String param2) {
-        ProductDetailFragment fragment = new ProductDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_product_detail, container);
+
+        imageView = view.findViewById(R.id.mainImage);
+        imageView2 = view.findViewById(R.id.img1);
+        productName = view.findViewById(R.id.pName);
+        productPrice = view.findViewById(R.id.pPrice);
+        parent = view.findViewById(R.id.parent);
+        productDesc = view.findViewById(R.id.pDesc);
+        like = view.findViewById(R.id.like);
+        buyBtn = view.findViewById(R.id.buyBtn);
+        amazonIcon = view.findViewById(R.id.amazonIcon);
+
+        like.setOnClickListener(v -> {
+            if (click == 0) {
+                like.setImageResource(R.drawable.heart_filled2);
+                click++;
+                Toast.makeText(mContext, "Added to cart", Toast.LENGTH_SHORT).show();
+            } else {
+                like.setImageResource(R.drawable.heart2);
+                click--;
+                Toast.makeText(mContext, "Removed from cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        productName.setText(trendingProducts.getName());
+        productPrice.setText(trendingProducts.getPrice());
+        productDesc.setText(trendingProducts.getDescription());
+
+        Picasso.get().load(trendingProducts.getImage()).into(imageView);
+        Picasso.get().load(trendingProducts.getImage()).into(imageView2);
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_detail, container, false);
+    private ArrayList<TrendingProducts> getSampleProductHistory() {
+        ArrayList<TrendingProducts> sampleHistory = new ArrayList<>();
+        sampleHistory.add(new TrendingProducts("Sample Product 1", "100.000 đ", "Description 1", "https://example.com/image1.jpg"));
+        sampleHistory.add(new TrendingProducts("Sample Product 2", "200.000 đ", "Description 2", "https://example.com/image2.jpg"));
+        sampleHistory.add(new TrendingProducts("Sample Product 3", "300.000 đ", "Description 3", "https://example.com/image3.jpg"));
+        sampleHistory.add(new TrendingProducts("Sample Product 4", "400.000 đ", "Description 4", "https://example.com/image4.jpg"));
+        return sampleHistory;
     }
 }

@@ -13,6 +13,16 @@
         android:theme="@style/Theme.ForMenShop"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ImageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Adapters.RecentHistoryAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CartActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ForMenShop" />
+        <activity
             android:name=".Adapters.ViewProductsAdapter"
             android:exported="false" />
         <activity

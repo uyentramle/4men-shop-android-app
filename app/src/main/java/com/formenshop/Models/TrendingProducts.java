@@ -1,12 +1,12 @@
 package com.formenshop.Models;
 
-public class Product {
+public class TrendingProducts {
     private String name;
     private String price;
     private String description;
     private String image;
 
-    public Product(String name, String price, String description, String image) {
+    public TrendingProducts(String name, String price, String description, String image) {
         this.name = name;
         this.price = price;
         this.description = description;
