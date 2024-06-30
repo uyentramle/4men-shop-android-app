@@ -10,10 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.formenshop.Adapters.ProductAdapter;
 import com.formenshop.Fragments.ProfileSettingsFragment;
 import com.formenshop.Fragments.SearchFragment;
+import com.formenshop.Models.Product;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.formenshop.R;
 import com.formenshop.Fragments.HomeFragment;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     private MenuItem prevMenuItem;
     private ViewPagerAdapter viewPagerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

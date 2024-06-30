@@ -5,6 +5,9 @@ plugins {
 android {
     namespace = "com.formenshop"
     compileSdk = 34
+    buildFeatures {
+        viewBinding = true;
+    }
 
     defaultConfig {
         applicationId = "com.formenshop"

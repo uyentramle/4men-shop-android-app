@@ -13,11 +13,17 @@
         android:theme="@style/Theme.ForMenShop"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.ImageViewActivity"
+            android:name=".Activities.ViewProductListActivity"
             android:exported="false" />
         <activity
-            android:name=".Adapters.RecentHistoryAdapter"
+            android:name=".Activities.LoginActivity"
             android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".Activities.ImageViewActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".Adapters.RecentHistoryAdapter" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activities.CartActivity"
             android:exported="false"
@@ -32,13 +38,7 @@
             android:name=".Adapters.CategoriesAdapter"
             android:exported="false" />
         <activity
-            android:name=".Activities.ViewProductListActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
