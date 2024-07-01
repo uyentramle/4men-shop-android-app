@@ -3,15 +3,14 @@ package com.formenshop.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 public class CategoriesModel implements Parcelable {
     private String name;
     private String image;
 
-    public CategoriesModel(String name, String image) {
-        this.name = name;
+    // Constructor, getters, and setters
+    public CategoriesModel(String image, String name) {
         this.image = image;
+        this.name = name;
     }
 
     protected CategoriesModel(Parcel in) {
@@ -31,20 +30,12 @@ public class CategoriesModel implements Parcelable {
         }
     };
 
-    public String getName() {
+    public String getCName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
+    public String getCImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     @Override
@@ -53,7 +44,7 @@ public class CategoriesModel implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(image);
     }

@@ -46,8 +46,14 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            newProductList = new ArrayList<>(getArguments().getParcelableArrayList(ARG_PRODUCTS));
-            categoriesList = new ArrayList<>(getArguments().getParcelableArrayList(ARG_CATEGORIES));
+            newProductList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
+            categoriesList = getArguments().getParcelableArrayList(ARG_CATEGORIES);
+        }
+        if (newProductList == null) {
+            newProductList = new ArrayList<>();
+        }
+        if (categoriesList == null) {
+            categoriesList = new ArrayList<>();
         }
     }
 
