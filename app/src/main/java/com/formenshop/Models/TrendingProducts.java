@@ -1,6 +1,11 @@
 package com.formenshop.Models;
 
-public class TrendingProducts {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class TrendingProducts implements Parcelable {
     private String name;
     private String price;
     private String description;
@@ -12,6 +17,25 @@ public class TrendingProducts {
         this.description = description;
         this.image = image;
     }
+
+    protected TrendingProducts(Parcel in) {
+        name = in.readString();
+        price = in.readString();
+        description = in.readString();
+        image = in.readString();
+    }
+
+    public static final Creator<TrendingProducts> CREATOR = new Creator<TrendingProducts>() {
+        @Override
+        public TrendingProducts createFromParcel(Parcel in) {
+            return new TrendingProducts(in);
+        }
+
+        @Override
+        public TrendingProducts[] newArray(int size) {
+            return new TrendingProducts[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -43,5 +67,18 @@ public class TrendingProducts {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(price);
+        dest.writeString(description);
+        dest.writeString(image);
     }
 }

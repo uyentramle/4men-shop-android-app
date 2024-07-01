@@ -1,26 +1,50 @@
 package com.formenshop.Adapters;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.formenshop.Models.CategoriesModel;
+import com.formenshop.Models.TrendingProducts;
 import com.formenshop.R;
 
-public class ViewProductsAdapter extends AppCompatActivity {
+import java.util.List;
+
+public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapter.ViewHolder> {
+    private Context context;
+    private List<TrendingProducts> productList;
+
+    public ViewProductsAdapter(Context context, List<TrendingProducts> productList) {
+        this.context = context;
+        this.productList = productList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.apdapter_view_products, parent, false);
+        return new ViewHolder(view);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.apdapter_view_products);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        TrendingProducts product = productList.get(position);
+        // Bind product data to view holder
+    }
+
+    @Override
+    public int getItemCount() {
+        return productList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            // Initialize views
+        }
     }
 }
