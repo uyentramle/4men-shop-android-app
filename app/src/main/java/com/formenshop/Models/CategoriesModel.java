@@ -1,16 +1,11 @@
 package com.formenshop.Models;
 
 public class CategoriesModel {
-    public CategoriesModel(){
+    private String name;
+    private String image;
 
-    }
-    public  String image,name;
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
+    public CategoriesModel(String name, String image) {
+        this.name = name;
         this.image = image;
     }
 
@@ -22,8 +17,11 @@ public class CategoriesModel {
         this.name = name;
     }
 
-    public CategoriesModel(String image, String name) {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
         this.image = image;
-        this.name = name;
     }
 }

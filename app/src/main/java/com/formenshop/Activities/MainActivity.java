@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.formenshop.Adapters.HomePageFragmentAdapter;
 import com.formenshop.Adapters.ProductAdapter;
 import com.formenshop.Fragments.ProfileSettingsFragment;
 import com.formenshop.Fragments.SearchFragment;
@@ -27,18 +28,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    HomePageFragmentAdapter mSectionsPagerAdapter;
     ActivityMainBinding binding;
     private MenuItem prevMenuItem;
     private ViewPagerAdapter viewPagerAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        setupViewPager(binding.viewpager);
-        binding.viewpager.setOffscreenPageLimit(3);  // Set the number of offscreen pages to keep in memory
+        mSectionsPagerAdapter = new HomePageFragmentAdapter(getSupportFragmentManager(), 3); // Fixed line
+        binding.viewpager.setAdapter(mSectionsPagerAdapter);
+        binding.viewpager.setOffscreenPageLimit(0);  // Set the number of offscreen pages to keep in memory
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -54,17 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 binding.bottomNavigation.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = binding.bottomNavigation.getMenu().getItem(position);
 
-//                switch(prevMenuItem.getItemId()) {
-//                    case R.id.home:
-//                        binding.title.setText("Home");
-//                        break;
-//                    case R.id.search:
-//                        binding.title.setText("Search");
-//                        break;
-//                    case R.id.profile:
-//                        binding.title.setText("My Profile");
-//                        break;
-//                }
                 int itemId = prevMenuItem.getItemId();
                 if (itemId == R.id.home) {
                     binding.title.setText("Home");
@@ -123,20 +114,6 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()) {
-//                    case R.id.home:
-//                        binding.viewpager.setCurrentItem(0);
-//                        binding.title.setText("Home");
-//                        break;
-//                    case R.id.search:
-//                        binding.viewpager.setCurrentItem(1);
-//                        binding.title.setText("Search");
-//                        break;
-//                    case R.id.profile:
-//                        binding.viewpager.setCurrentItem(2);
-//                        binding.title.setText("My Profile");
-//                        break;
-//                }
                 int itemId = menuItem.getItemId();
                 if (itemId == R.id.home) {
                     binding.viewpager.setCurrentItem(0);
