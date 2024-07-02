@@ -16,32 +16,31 @@ import com.formenshop.R;
 
 import java.util.ArrayList;
 
-public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapter.ViewHolder> {
+public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGridAdapter.ViewHolder> {
     private Context context;
     private ArrayList<ProductsModel> productList;
 
-    public ViewProductsAdapter(Context context, ArrayList<ProductsModel> productList) {
+    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList) {
         this.context = context;
         this.productList = productList;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView productName, productPrice, productDescription;
+        TextView productName, productPrice;
         ImageView productImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            productName = itemView.findViewById(R.id.pName);
-            productPrice = itemView.findViewById(R.id.pPrice);
-            productDescription = itemView.findViewById(R.id.pDesc);
-            productImage = itemView.findViewById(R.id.pImage);
+            productName = itemView.findViewById(R.id.productName);
+            productPrice = itemView.findViewById(R.id.productPrice);
+            productImage = itemView.findViewById(R.id.productImage);
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_view_products, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_view_products_grid, parent, false);
         return new ViewHolder(view);
     }
 
@@ -50,7 +49,6 @@ public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapte
         ProductsModel product = productList.get(position);
         holder.productName.setText(product.getName());
         holder.productPrice.setText(product.getPrice());
-        holder.productDescription.setText(product.getDescription());
         Glide.with(context).load(product.getImage()).into(holder.productImage);
     }
 
@@ -58,5 +56,4 @@ public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapte
     public int getItemCount() {
         return productList.size();
     }
-
 }

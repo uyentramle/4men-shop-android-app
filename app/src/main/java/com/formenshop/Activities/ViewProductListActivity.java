@@ -10,17 +10,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.formenshop.Adapters.ProductAdapter;
-import com.formenshop.Models.Product;
 import com.formenshop.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewProductListActivity extends AppCompatActivity {
-//    private RecyclerView recyclerView;
-//    private ProductAdapter productAdapter;
-//    private List<Product> productList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

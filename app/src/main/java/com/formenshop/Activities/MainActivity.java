@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.formenshop.Adapters.HomePageFragmentAdapter;
@@ -19,7 +17,7 @@ import com.formenshop.Fragments.HomeFragment;
 import com.formenshop.Fragments.ProfileSettingsFragment;
 import com.formenshop.Fragments.SearchFragment;
 import com.formenshop.Models.CategoriesModel;
-import com.formenshop.Models.TrendingProducts;
+import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 import com.formenshop.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,17 +37,21 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         // Create hardcoded data
-        ArrayList<TrendingProducts> products = new ArrayList<>();
-        products.add(new TrendingProducts("Product 1", "100.000 đ", "Description 1", "https://via.placeholder.com/150"));
-        products.add(new TrendingProducts("Product 2", "100.000 đ", "Description 2", "https://via.placeholder.com/150"));
-        products.add(new TrendingProducts("Product 3", "100.000 đ", "Description 3", "https://via.placeholder.com/150"));
+        ArrayList<ProductsModel> products = new ArrayList<>();
+        products.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
+        products.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
+        products.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
+        products.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
+        products.add(new ProductsModel("Product 5", "100.000 đ", "Description 5", R.drawable.img2a));
+        products.add(new ProductsModel("Product 6", "100.000 đ", "Description 6", R.drawable.img2b));
 
         // Create hardcoded category data
         ArrayList<CategoriesModel> categories = new ArrayList<>();
-        categories.add(new CategoriesModel("https://m.media-amazon.com/images/I/81oBlS3rKXL._UY575_.jpg", "Jewellery"));
-        categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41lICpaGo9L._SX300_SY300_QL70_FMwebp_.jpg", "Home Decor"));
-        categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41wKsI9yrZL._SY300_SX300_QL70_FMwebp_.jpg", "Ayurvedic"));
-        categories.add(new CategoriesModel("https://m.media-amazon.com/images/I/911EKUNq1+L._SL1500_.jpg", "Furniture"));
+        categories.add(new CategoriesModel("https://m.media-amazon.com/images/I/81oBlS3rKXL._UY575_.jpg", "Category 1"));
+        categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41lICpaGo9L._SX300_SY300_QL70_FMwebp_.jpg", "Category 2"));
+        categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41wKsI9yrZL._SY300_SX300_QL70_FMwebp_.jpg", "Category 3"));
+        categories.add(new CategoriesModel("https://m.media-amazon.com/images/I/911EKUNq1+L._SL1500_.jpg", "Category 4"));
+        categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41lICpaGo9L._SX300_SY300_QL70_FMwebp_.jpg", "Category 5"));
 
         mSectionsPagerAdapter = new HomePageFragmentAdapter(getSupportFragmentManager(), 3);
         binding.viewpager.setAdapter(mSectionsPagerAdapter);
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(binding.viewpager, products, categories); // Pass products and categories to setupViewPager
     }
 
-    private void setupViewPager(ViewPager viewPager, ArrayList<TrendingProducts> products, ArrayList<CategoriesModel> categories) {
+    private void setupViewPager(ViewPager viewPager, ArrayList<ProductsModel> products, ArrayList<CategoriesModel> categories) {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPagerAdapter.addFragment(HomeFragment.newInstance(products, categories), "Home");
         // Add other fragments here like SearchFragment, ProfileFragment

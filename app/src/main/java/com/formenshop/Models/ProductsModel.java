@@ -5,35 +5,35 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class TrendingProducts implements Parcelable {
+public class ProductsModel implements Parcelable {
     private String name;
     private String price;
     private String description;
-    private String image;
+    private int image;
 
-    public TrendingProducts(String name, String price, String description, String image) {
+    public ProductsModel(String name, String price, String description, int image) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.image = image;
     }
 
-    protected TrendingProducts(Parcel in) {
+    protected ProductsModel(Parcel in) {
         name = in.readString();
         price = in.readString();
         description = in.readString();
-        image = in.readString();
+        image = in.readInt();
     }
 
-    public static final Creator<TrendingProducts> CREATOR = new Creator<TrendingProducts>() {
+    public static final Creator<ProductsModel> CREATOR = new Creator<ProductsModel>() {
         @Override
-        public TrendingProducts createFromParcel(Parcel in) {
-            return new TrendingProducts(in);
+        public ProductsModel createFromParcel(Parcel in) {
+            return new ProductsModel(in);
         }
 
         @Override
-        public TrendingProducts[] newArray(int size) {
-            return new TrendingProducts[size];
+        public ProductsModel[] newArray(int size) {
+            return new ProductsModel[size];
         }
     };
 
@@ -61,11 +61,11 @@ public class TrendingProducts implements Parcelable {
         this.description = description;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 
@@ -79,6 +79,6 @@ public class TrendingProducts implements Parcelable {
         dest.writeString(name);
         dest.writeString(price);
         dest.writeString(description);
-        dest.writeString(image);
+        dest.writeInt(image);
     }
 }

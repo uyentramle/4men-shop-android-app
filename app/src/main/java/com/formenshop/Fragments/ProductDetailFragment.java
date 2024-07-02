@@ -6,32 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
-import com.formenshop.Models.TrendingProducts;
+import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
 public class ProductDetailFragment extends BottomSheetDialogFragment {
     private Context mContext;
-    private TrendingProducts trendingProducts;
+    private ProductsModel productsModel;
     private ImageView imageView, imageView2, like;
     private TextView productName, productPrice, productDesc;
     private int click = 0;
 
-    public ProductDetailFragment(Context mContext, TrendingProducts trendingProducts) {
+    public ProductDetailFragment(Context mContext, ProductsModel productsModel) {
         this.mContext = mContext;
-        this.trendingProducts = trendingProducts;
+        this.productsModel = productsModel;
     }
 
     @Nullable
@@ -58,12 +54,12 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
             }
         });
 
-        productName.setText(trendingProducts.getName());
-        productPrice.setText(trendingProducts.getPrice());
-        productDesc.setText(trendingProducts.getDescription());
+        productName.setText(productsModel.getName());
+        productPrice.setText(productsModel.getPrice());
+        productDesc.setText(productsModel.getDescription());
 
-        Picasso.get().load(trendingProducts.getImage()).into(imageView);
-        Picasso.get().load(trendingProducts.getImage()).into(imageView2);
+        Picasso.get().load(productsModel.getImage()).into(imageView);
+        Picasso.get().load(productsModel.getImage()).into(imageView2);
 
         return view;
     }

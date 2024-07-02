@@ -232,7 +232,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/productsAcrossVietNam"
+                    android:id="@+id/productsAcrossVNView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -312,7 +312,7 @@
 <!--                </LinearLayout>-->
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/bestSellerProduct"
+                    android:id="@+id/bestSellerProductsView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -342,6 +342,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/blue_700"
                 android:orientation="horizontal"
                 android:padding="5dp">
