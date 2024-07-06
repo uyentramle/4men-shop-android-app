@@ -8,9 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.formenshop.Activities.ViewProductListActivity;
+import com.formenshop.Fragments.ProductDetailFragment;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
@@ -19,10 +23,21 @@ import java.util.ArrayList;
 public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGridAdapter.ViewHolder> {
     private Context context;
     private ArrayList<ProductsModel> productList;
+    private ViewProductsAdapter.OnItemClickListener listener;
 
-    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList) {
+    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList, ViewProductsAdapter.OnItemClickListener listener) {
         this.context = context;
-        this.productList = productList;
+        this.productList = productList != null ? productList : new ArrayList<>();
+        this.listener = listener;
+    }
+
+    public ViewProductsGridAdapter(ViewProductListActivity context, ArrayList<ProductsModel> categoryList, Object onProductClicked) {
+        this.context = context;
+        this.productList = productList != null ? productList : new ArrayList<>();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(ProductsModel product);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,10 +65,19 @@ public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGr
         holder.productName.setText(product.getName());
         holder.productPrice.setText(product.getPrice());
         Glide.with(context).load(product.getImage()).into(holder.productImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+                ProductDetailFragment productDetail = new ProductDetailFragment(context, product);
+                productDetail.show(manager, productDetail.getTag());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return productList != null ? productList.size() : 0;
     }
 }

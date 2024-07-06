@@ -26,9 +26,6 @@
             android:name=".Adapters.ViewProductsAdapter"
             android:exported="false" />
         <activity
-            android:name=".Adapters.ProductAdapter"
-            android:exported="false" />
-        <activity
             android:name=".Adapters.CategoriesAdapter"
             android:exported="false" />
         <activity

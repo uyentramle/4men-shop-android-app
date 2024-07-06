@@ -1,6 +1,7 @@
 package com.formenshop.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.formenshop.Activities.ViewProductListActivity;
 import com.formenshop.Models.CategoriesModel;
 import com.formenshop.R;
 
@@ -49,6 +51,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         CategoriesModel category = categoriesList.get(position);
         holder.categoryName.setText(category.getCName());
         Glide.with(context).load(category.getCImage()).into(holder.categoryImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event on category item
+                Intent intent = new Intent(context, ViewProductListActivity.class);
+                intent.putExtra("type", "category");
+                intent.putExtra("category", category.getCName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

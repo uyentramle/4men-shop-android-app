@@ -1,9 +1,11 @@
 package com.formenshop.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
                     binding.title.setText("Search");
                 } else if (itemId == R.id.profile) {
                     binding.title.setText("My Profile");
+                } else if (itemId == R.id.cartView) {
+                    binding.title.setText("Cart");
                 }
             }
 
@@ -91,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
         binding.cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // No action for now
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -141,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.profile) {
                     binding.viewpager.setCurrentItem(2);
                     binding.title.setText("My Profile");
+                } else if (itemId == R.id.cartView) {
+                    binding.viewpager.setCurrentItem(3);
+                    binding.title.setText("Cart");
                 }
                 return true;
             }
