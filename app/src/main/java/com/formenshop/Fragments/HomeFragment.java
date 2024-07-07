@@ -16,6 +16,7 @@ import com.formenshop.Activities.ViewProductListActivity;
 import com.formenshop.Adapters.CategoriesAdapter;
 import com.formenshop.Adapters.ViewProductsAdapter;
 import com.formenshop.Adapters.ViewProductsGridAdapter;
+import com.formenshop.Api.ApiClient;
 import com.formenshop.Api.ApiService;
 import com.formenshop.Models.CategoriesModel;
 import com.formenshop.Models.Product;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
     private ViewProductsGridAdapter mAdapter4;
 
     Button viewAllBtn;
+    private ApiService apiService;
 
     public HomeFragment() {
     }
@@ -73,12 +75,11 @@ public class HomeFragment extends Fragment {
         productsAcrossVNList = new ArrayList<>();
         bestSellingList = new ArrayList<>();
 
+        apiService = ApiClient.getApiService(getContext());
+
         // Check if arguments are available and fetch if not null
         if (getArguments() != null) {
             categoriesList = getArguments().getParcelableArrayList(ARG_CATEGORIES);
-//            newProductList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
-//            productsAcrossVNList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
-//            bestSellingList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
         }
 
         // Make API calls to fetch data for new products and best selling products
@@ -88,7 +89,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchNewProducts() {
-        ApiService.apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+        apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -111,10 +112,10 @@ public class HomeFragment extends Fragment {
                     // Update RecyclerView adapter for new products view
                     if (mAdapter1 != null) {
                         mAdapter1.updateData(convertedList);
-
                     } else {
                         if (newProductList != null && !newProductList.isEmpty()) {
                             mAdapter1 = new ViewProductsGridAdapter(getContext(), newProductList, product -> {
+                                // Ensure correct arguments are passed to ProductDetailFragment constructor
                                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
                             });
@@ -133,8 +134,9 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     private void fetchProductsAcrossVN() {
-        ApiService.apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+        apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -163,6 +165,7 @@ public class HomeFragment extends Fragment {
                                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
                             });
+
                             mProductsAcrossVNView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                             mProductsAcrossVNView.setAdapter(mAdapter2);
                         }
@@ -178,8 +181,9 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     private void fetchBestSellingProducts() {
-        ApiService.apiService.getProductSeller().enqueue(new Callback<List<Product>>() {
+        apiService.getProductSeller().enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -250,9 +254,7 @@ public class HomeFragment extends Fragment {
             mNewProductView.setAdapter(mAdapter1);
         }
 
-
-        if (mProductsAcrossVNView != null && !productsAcrossVNList.isEmpty()) {
-//            mAdapter2 = new ViewProductsAdapter(getContext(), productsAcrossVNList);
+        if (productsAcrossVNList != null && !productsAcrossVNList.isEmpty()) {
             mAdapter2 = new ViewProductsAdapter(getContext(), productsAcrossVNList, product -> {
                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
@@ -261,8 +263,7 @@ public class HomeFragment extends Fragment {
             mProductsAcrossVNView.setAdapter(mAdapter2);
         }
 
-
-        if (mBestSellingView != null && !bestSellingList.isEmpty()) {
+        if (bestSellingList != null && !bestSellingList.isEmpty()) {
             mAdapter4 = new ViewProductsGridAdapter(getContext(), bestSellingList, product -> {
                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
@@ -271,13 +272,10 @@ public class HomeFragment extends Fragment {
             mBestSellingView.setAdapter(mAdapter4);
         }
 
-        viewAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ViewProductListActivity.class);
-                intent.putExtra("type", "all");
-                startActivity(intent);
-            }
+        viewAllBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ViewProductListActivity.class);
+            intent.putExtra("type", "all");
+            startActivity(intent);
         });
 
         return view;

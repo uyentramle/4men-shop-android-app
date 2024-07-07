@@ -2,6 +2,7 @@ package com.formenshop.Activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -11,11 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.formenshop.Adapters.ViewProductsAdapter;
 import com.formenshop.Adapters.ViewProductsGridAdapter;
+import com.formenshop.Api.ApiClient;
+import com.formenshop.Api.ApiService;
+import com.formenshop.Models.Product;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 import com.formenshop.databinding.ActivityViewProductListBinding;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewProductListActivity extends AppCompatActivity {
 
@@ -25,6 +34,7 @@ public class ViewProductListActivity extends AppCompatActivity {
     private ArrayList<ProductsModel> categoryList;
     private ViewProductsAdapter productAdapter;
     private ViewProductsGridAdapter gridAdapter;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,9 @@ public class ViewProductListActivity extends AppCompatActivity {
 
         // Get the type from the intent
         type = getIntent().getStringExtra("type");
+
+        // Initialize ApiService
+        apiService = ApiClient.getApiService(this);
 
         // Setup RecyclerView and adapters based on the type
         setupRecyclerView();
@@ -58,9 +71,7 @@ public class ViewProductListActivity extends AppCompatActivity {
 
         if (type != null) {
             if (type.equalsIgnoreCase("all")) {
-                getProducts();
-                productAdapter = new ViewProductsAdapter(this, products, this::onProductClicked);
-                binding.allProductsView.setAdapter(productAdapter);
+                loadAllProducts();
             } else if (type.equalsIgnoreCase("category")) {
                 getCategoryProducts();
                 gridAdapter = new ViewProductsGridAdapter(this, categoryList, this::onProductClicked);
@@ -69,7 +80,35 @@ public class ViewProductListActivity extends AppCompatActivity {
         }
     }
 
-    // Get products method
+    private void loadAllProducts() {
+        apiService.getAllProduct().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    products.clear();
+                    for (Product product : response.body()) {
+                        products.add(new ProductsModel(
+                                product.getProductName(),
+                                "100.000 đ",
+                                product.getDescription(),
+                                R.drawable.img2 // Replace with actual image
+                        ));
+                    }
+                    productAdapter = new ViewProductsAdapter(ViewProductListActivity.this, products, ViewProductListActivity.this::onProductClicked);
+                    binding.allProductsView.setAdapter(productAdapter);
+                } else {
+                    Toast.makeText(ViewProductListActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Toast.makeText(ViewProductListActivity.this, "Failed to load products: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Get products method (if needed)
     private void getProducts() {
         products.clear(); // Clear existing products
 
@@ -78,8 +117,6 @@ public class ViewProductListActivity extends AppCompatActivity {
         products.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
         products.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
         products.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
-        products.add(new ProductsModel("Product 5", "100.000 đ", "Description 5", R.drawable.img2a));
-        products.add(new ProductsModel("Product 6", "100.000 đ", "Description 6", R.drawable.img2b));
 
         // Notify adapter of data change
         if (productAdapter != null) {
