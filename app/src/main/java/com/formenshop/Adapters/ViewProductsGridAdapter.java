@@ -8,9 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.formenshop.Fragments.ProductDetailFragment;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
@@ -19,16 +22,28 @@ import java.util.ArrayList;
 public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGridAdapter.ViewHolder> {
     private Context context;
     private ArrayList<ProductsModel> productList;
+    private OnItemClickListener listener;
 
-    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList) {
-        this.context = context;
-        this.productList = productList;
+    // Define the OnItemClickListener interface
+    public interface OnItemClickListener {
+        void onItemClick(ProductsModel product);
     }
+
+    // Constructor
+    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList, OnItemClickListener listener) {
+        this.context = context;
+        this.productList = productList != null ? productList : new ArrayList<>();
+        this.listener = listener;
+    }
+
+    // Method to update data
     public void updateData(ArrayList<ProductsModel> newList) {
         productList.clear();
         productList.addAll(newList);
         notifyDataSetChanged();
     }
+
+    // ViewHolder class
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView productName, productPrice;
         ImageView productImage;
@@ -54,10 +69,17 @@ public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGr
         holder.productName.setText(product.getName());
         holder.productPrice.setText(product.getPrice());
         Glide.with(context).load(product.getImage()).into(holder.productImage);
+
+        // Set the click listener
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(product);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return productList != null ? productList.size() : 0;
     }
 }
