@@ -6,6 +6,9 @@ public class LoginResponse {
     @SerializedName("token")
     String token ;
 
+    public LoginResponse() {
+    }
+
     public LoginResponse(String token) {
         this.token = token;
     }

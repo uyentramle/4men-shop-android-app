@@ -1,8 +1,12 @@
 package com.formenshop.Api;
 
+import com.formenshop.Config.ITokenManager;
+import com.formenshop.Config.TokenManager;
 import com.formenshop.Models.Product;
 import com.formenshop.Models.ProductsModel;
+import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
+import com.formenshop.Response.CartResponse;
 import com.formenshop.Response.LoginResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,27 +30,20 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    Gson gson = new GsonBuilder().setDateFormat("dd-MM-yyyy").create();
 
-    OkHttpClient client = SSLHelper.getUnsafeOkHttpClient();
-
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5188/") // Ensure the URL ends with a slash
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build();
-
-    // ApiService instance
-    ApiService apiService = retrofit.create(ApiService.class);
-    //Authen
     @POST("api/Authencation/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    //Product
     @GET("api/Product/GetProductTrend")
     Call<List<Product>> getProductTrend();
 
     @GET("api/Product/GetProductSeller")
     Call<List<Product>> getProductSeller();
+
+    @GET("api/Product/getProduct")
+    Call<List<Product>> getAllProduct();
+
+    @POST("api/Cart/addCart")
+    Call<CartResponse> addCart(@Body CartRequest cartRequest);
 
 }
