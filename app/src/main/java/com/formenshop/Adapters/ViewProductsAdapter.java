@@ -40,6 +40,11 @@ public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapte
         this.productList = productList != null ? productList : new ArrayList<>();
         this.listener = listener;
     }
+    public void updateData(ArrayList<ProductsModel> newList) {
+        productList.clear();
+        productList.addAll(newList);
+        notifyDataSetChanged();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView productName, productPrice, productDescription;

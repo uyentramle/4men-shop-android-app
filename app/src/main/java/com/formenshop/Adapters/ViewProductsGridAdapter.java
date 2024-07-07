@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.formenshop.Activities.ViewProductListActivity;
 import com.formenshop.Fragments.ProductDetailFragment;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
@@ -23,23 +22,28 @@ import java.util.ArrayList;
 public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGridAdapter.ViewHolder> {
     private Context context;
     private ArrayList<ProductsModel> productList;
-    private ViewProductsAdapter.OnItemClickListener listener;
+    private OnItemClickListener listener;
 
-    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList, ViewProductsAdapter.OnItemClickListener listener) {
+    // Define the OnItemClickListener interface
+    public interface OnItemClickListener {
+        void onItemClick(ProductsModel product);
+    }
+
+    // Constructor
+    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList, OnItemClickListener listener) {
         this.context = context;
         this.productList = productList != null ? productList : new ArrayList<>();
         this.listener = listener;
     }
 
-    public ViewProductsGridAdapter(ViewProductListActivity context, ArrayList<ProductsModel> categoryList, Object onProductClicked) {
-        this.context = context;
-        this.productList = productList != null ? productList : new ArrayList<>();
+    // Method to update data
+    public void updateData(ArrayList<ProductsModel> newList) {
+        productList.clear();
+        productList.addAll(newList);
+        notifyDataSetChanged();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(ProductsModel product);
-    }
-
+    // ViewHolder class
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView productName, productPrice;
         ImageView productImage;
@@ -66,12 +70,10 @@ public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGr
         holder.productPrice.setText(product.getPrice());
         Glide.with(context).load(product.getImage()).into(holder.productImage);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
-                ProductDetailFragment productDetail = new ProductDetailFragment(context, product);
-                productDetail.show(manager, productDetail.getTag());
+        // Set the click listener
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(product);
             }
         });
     }

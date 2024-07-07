@@ -40,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Create hardcoded data
         ArrayList<ProductsModel> products = new ArrayList<>();
-        products.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
-        products.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
-        products.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
-        products.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
-        products.add(new ProductsModel("Product 5", "100.000 đ", "Description 5", R.drawable.img2a));
-        products.add(new ProductsModel("Product 6", "100.000 đ", "Description 6", R.drawable.img2b));
 
         // Create hardcoded category data
         ArrayList<CategoriesModel> categories = new ArrayList<>();
