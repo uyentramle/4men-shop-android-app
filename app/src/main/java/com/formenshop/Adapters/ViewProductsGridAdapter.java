@@ -24,7 +24,11 @@ public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGr
         this.context = context;
         this.productList = productList;
     }
-
+    public void updateData(ArrayList<ProductsModel> newList) {
+        productList.clear();
+        productList.addAll(newList);
+        notifyDataSetChanged();
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView productName, productPrice;
         ImageView productImage;

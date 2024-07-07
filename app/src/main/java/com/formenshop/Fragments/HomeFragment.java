@@ -1,6 +1,7 @@
 package com.formenshop.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.formenshop.Adapters.CategoriesAdapter;
 import com.formenshop.Adapters.ViewProductsAdapter;
 import com.formenshop.Adapters.ViewProductsGridAdapter;
+import com.formenshop.Api.ApiService;
 import com.formenshop.Models.CategoriesModel;
+import com.formenshop.Models.Product;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -53,24 +61,147 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize ArrayLists
+        categoriesList = new ArrayList<>();
+        newProductList = new ArrayList<>();
+        productsAcrossVNList = new ArrayList<>();
+        bestSellingList = new ArrayList<>();
+
+        // Check if arguments are available and fetch if not null
         if (getArguments() != null) {
             categoriesList = getArguments().getParcelableArrayList(ARG_CATEGORIES);
-            newProductList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
-            productsAcrossVNList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
-            bestSellingList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
+//            newProductList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
+//            productsAcrossVNList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
+//            bestSellingList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
         }
-        if (categoriesList == null) {
-            categoriesList = new ArrayList<>();
-        }
-        if (newProductList == null) {
-            newProductList = new ArrayList<>();
-        }
-        if (productsAcrossVNList == null) {
-            productsAcrossVNList = new ArrayList<>();
-        }
-        if (bestSellingList == null) {
-            bestSellingList = new ArrayList<>();
-        }
+
+        // Make API calls to fetch data for new products and best selling products
+        fetchNewProducts();
+        fetchProductsAcrossVN();
+        fetchBestSellingProducts();
+    }
+
+    private void fetchNewProducts() {
+        ApiService.apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Product> productList = response.body();
+
+                    // Convert List<Product> to ArrayList<ProductsModel>
+                    ArrayList<ProductsModel> convertedList = new ArrayList<>();
+                    for (Product product : productList) {
+                        ProductsModel model = new ProductsModel(
+                                product.getProductName(),
+                                String.valueOf(product.getPrice()),
+                                product.getDescription(),
+                                R.drawable.img2
+                        );
+                        convertedList.add(model);
+                    }
+                    newProductList.clear();
+                    newProductList.addAll(convertedList);
+
+                    // Update RecyclerView adapter for new products view
+                    if (mAdapter1 != null) {
+                        mAdapter1.updateData(convertedList);
+
+                    } else {
+                        mAdapter1 = new ViewProductsGridAdapter(getContext(), newProductList);
+                        mNewProductView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        mNewProductView.setAdapter(mAdapter1);
+                    }
+                } else {
+                    Log.e("API Call", "Failed to get new products data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+                Log.e("API Call", "Failed to fetch new products", throwable);
+            }
+        });
+    }
+    private void fetchProductsAcrossVN() {
+        ApiService.apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Product> productList = response.body();
+
+                    // Convert List<Product> to ArrayList<ProductsModel>
+                    ArrayList<ProductsModel> convertedList = new ArrayList<>();
+                    for (Product product : productList) {
+                        ProductsModel model = new ProductsModel(
+                                product.getProductName(),
+                                String.valueOf(product.getPrice()),
+                                product.getDescription(),
+                                R.drawable.img2
+                        );
+                        convertedList.add(model);
+                    }
+                    productsAcrossVNList.clear();
+                    productsAcrossVNList.addAll(convertedList);
+
+                    // Update RecyclerView adapter for products across VN view
+                    if (mAdapter2 != null) {
+                        mAdapter2.updateData(convertedList);
+                    } else {
+                        mAdapter2 = new ViewProductsAdapter(getContext(), productsAcrossVNList);
+                        mProductsAcrossVNView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        mProductsAcrossVNView.setAdapter(mAdapter2);
+                    }
+                } else {
+                    Log.e("API Call", "Failed to get products across VN data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+                Log.e("API Call", "Failed to fetch products across VN", throwable);
+            }
+        });
+    }
+    private void fetchBestSellingProducts() {
+        ApiService.apiService.getProductSeller().enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Product> productList = response.body();
+
+                    // Convert List<Product> to ArrayList<ProductsModel>
+                    ArrayList<ProductsModel> convertedList = new ArrayList<>();
+                    for (Product product : productList) {
+                        ProductsModel model = new ProductsModel(
+                                product.getProductName(),
+                                String.valueOf(product.getPrice()),
+                                product.getDescription(),
+                                R.drawable.img2
+                        );
+                        convertedList.add(model);
+                    }
+                    bestSellingList.clear();
+                    bestSellingList.addAll(convertedList);
+
+                    // Update RecyclerView adapter for best selling products view
+                    if (mAdapter4 != null) {
+                        mAdapter4.updateData(convertedList);
+                    } else {
+                        mAdapter4 = new ViewProductsGridAdapter(getContext(), bestSellingList);
+                        mBestSellingView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        mBestSellingView.setAdapter(mAdapter4);
+                    }
+                } else {
+                    Log.e("API Call", "Failed to get best selling products data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+                Log.e("API Call", "Failed to fetch best selling products", throwable);
+            }
+        });
     }
 
     @Override
@@ -82,6 +213,7 @@ public class HomeFragment extends Fragment {
         mProductsAcrossVNView = view.findViewById(R.id.productsAcrossVNView);
         mBestSellingView = view.findViewById(R.id.bestSellerProductsView);
 
+        // Set up RecyclerViews if data is available
         if (categoriesList != null && !categoriesList.isEmpty()) {
             mAdapter3 = new CategoriesAdapter(getContext(), categoriesList);
             mCategoriesView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -94,13 +226,13 @@ public class HomeFragment extends Fragment {
             mNewProductView.setAdapter(mAdapter1);
         }
 
-        if (mProductsAcrossVNView != null && !productsAcrossVNList.isEmpty()) {
+        if (productsAcrossVNList != null && !productsAcrossVNList.isEmpty()) {
             mAdapter2 = new ViewProductsAdapter(getContext(), productsAcrossVNList);
             mProductsAcrossVNView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             mProductsAcrossVNView.setAdapter(mAdapter2);
         }
 
-        if (mBestSellingView != null && !bestSellingList.isEmpty()) {
+        if (bestSellingList != null && !bestSellingList.isEmpty()) {
             mAdapter4 = new ViewProductsGridAdapter(getContext(), bestSellingList);
             mBestSellingView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             mBestSellingView.setAdapter(mAdapter4);

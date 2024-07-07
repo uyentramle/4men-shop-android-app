@@ -1,9 +1,11 @@
 package com.formenshop.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Create hardcoded data
         ArrayList<ProductsModel> products = new ArrayList<>();
-        products.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
-        products.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
-        products.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
-        products.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
-        products.add(new ProductsModel("Product 5", "100.000 đ", "Description 5", R.drawable.img2a));
-        products.add(new ProductsModel("Product 6", "100.000 đ", "Description 6", R.drawable.img2b));
 
         // Create hardcoded category data
         ArrayList<CategoriesModel> categories = new ArrayList<>();
@@ -78,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                     binding.title.setText("Search");
                 } else if (itemId == R.id.profile) {
                     binding.title.setText("My Profile");
+                } else if (itemId == R.id.cartView) {
+                    binding.title.setText("Cart");
                 }
             }
 
@@ -91,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
         binding.cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // No action for now
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -141,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.profile) {
                     binding.viewpager.setCurrentItem(2);
                     binding.title.setText("My Profile");
+                } else if (itemId == R.id.cartView) {
+                    binding.viewpager.setCurrentItem(3);
+                    binding.title.setText("Cart");
                 }
                 return true;
             }
