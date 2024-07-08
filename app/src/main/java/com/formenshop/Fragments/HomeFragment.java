@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.formenshop.Activities.MapShopActivity;
 import com.formenshop.Activities.ViewProductListActivity;
 import com.formenshop.Adapters.CategoriesAdapter;
 import com.formenshop.Adapters.ViewProductsAdapter;
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
     private ViewProductsGridAdapter mAdapter4;
 
     Button viewAllBtn;
+    ImageView go_shop;
     private ApiService apiService;
 
     public HomeFragment() {
@@ -237,7 +240,7 @@ public class HomeFragment extends Fragment {
         mProductsAcrossVNView = view.findViewById(R.id.productsAcrossVNView);
         mBestSellingView = view.findViewById(R.id.bestSellerProductsView);
         viewAllBtn = view.findViewById(R.id.viewAllBtn);
-
+        go_shop = (ImageView)view.findViewById(R.id.go_map);
         // Set up RecyclerViews if data is available
         if (categoriesList != null && !categoriesList.isEmpty()) {
             mAdapter3 = new CategoriesAdapter(getContext(), categoriesList);
@@ -271,7 +274,10 @@ public class HomeFragment extends Fragment {
             mBestSellingView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             mBestSellingView.setAdapter(mAdapter4);
         }
-
+        go_shop.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MapShopActivity.class);
+            startActivity(intent);
+        });
         viewAllBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ViewProductListActivity.class);
             intent.putExtra("type", "all");
