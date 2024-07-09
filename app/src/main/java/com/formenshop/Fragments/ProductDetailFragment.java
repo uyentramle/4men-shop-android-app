@@ -87,8 +87,6 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
         Picasso.get().load(productsModel.getThumbnail()).into(imageView2);
 
 
-//        Picasso.get().load(productsModel.getImage()).into(imageView);
-//        Picasso.get().load(productsModel.getImage()).into(imageView2);
 
         Log.d(TAG, "Product details loaded: " + productsModel);
 
