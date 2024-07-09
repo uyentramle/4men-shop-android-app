@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +34,8 @@ public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapte
         void onItemClick(ProductsModel product);
     }
 
-    public ViewProductsAdapter(Context context, ArrayList<ProductsModel> productList, OnItemClickListener listener) {
+    public ViewProductsAdapter(Context context, ArrayList<ProductsModel> productList,
+                               OnItemClickListener listener) {
         this.context = context;
         this.productList = productList != null ? productList : new ArrayList<>();
         this.listener = listener;
@@ -60,10 +60,10 @@ public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapte
 
         public void bind(final ProductsModel product, final OnItemClickListener listener) {
             itemView.setOnClickListener(v -> listener.onItemClick(product));
-            productName.setText(product.getName());
-            productPrice.setText(product.getPrice());
+            productName.setText(product.getProductName());
+            productPrice.setText(product.getPrice()+"");
             productDescription.setText(product.getDescription());
-            Glide.with(itemView).load(product.getImage()).into(productImage);
+            Glide.with(itemView).load(product.getThumbnail()).into(productImage);
         }
     }
 
@@ -77,10 +77,10 @@ public class ViewProductsAdapter extends RecyclerView.Adapter<ViewProductsAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProductsModel product = productList.get(position);
-        holder.productName.setText(product.getName());
-        holder.productPrice.setText(product.getPrice());
+        holder.productName.setText(product.getProductName());
+        holder.productPrice.setText(product.getPrice()+"");
         holder.productDescription.setText(product.getDescription());
-        Glide.with(context).load(product.getImage()).into(holder.productImage);
+        Glide.with(context).load(product.getThumbnail()).into(holder.productImage);
 
         holder.bind(product, listener);
 

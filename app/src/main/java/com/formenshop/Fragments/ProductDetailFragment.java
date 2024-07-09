@@ -73,12 +73,12 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
             }
         });
 
-        productName.setText(productsModel.getName());
-        productPrice.setText(productsModel.getPrice());
+        productName.setText(productsModel.getProductName());
+        productPrice.setText(productsModel.getPrice()+"");
         productDesc.setText(productsModel.getDescription());
 
-        Picasso.get().load(productsModel.getImage()).into(imageView);
-        Picasso.get().load(productsModel.getImage()).into(imageView2);
+//        Picasso.get().load(productsModel.getImage()).into(imageView);
+//        Picasso.get().load(productsModel.getImage()).into(imageView2);
 
         Log.d(TAG, "Product details loaded: " + productsModel);
 

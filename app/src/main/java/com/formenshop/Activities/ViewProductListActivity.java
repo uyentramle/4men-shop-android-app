@@ -14,7 +14,6 @@ import com.formenshop.Adapters.ViewProductsAdapter;
 import com.formenshop.Adapters.ViewProductsGridAdapter;
 import com.formenshop.Api.ApiClient;
 import com.formenshop.Api.ApiService;
-import com.formenshop.Models.Product;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 import com.formenshop.databinding.ActivityViewProductListBinding;
@@ -81,29 +80,35 @@ public class ViewProductListActivity extends AppCompatActivity {
     }
 
     private void loadAllProducts() {
-        apiService.getAllProduct().enqueue(new Callback<List<Product>>() {
+        apiService.getAllProduct().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     products.clear();
-                    for (Product product : response.body()) {
+                    for (ProductsModel product : response.body()) {
                         products.add(new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                "100.000 đ",
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2 // Replace with actual image
+                                product.getInventory(),
+                                product.getCategoryId()
                         ));
                     }
-                    productAdapter = new ViewProductsAdapter(ViewProductListActivity.this, products, ViewProductListActivity.this::onProductClicked);
+                    productAdapter = new ViewProductsAdapter(ViewProductListActivity.this,
+                            products, ViewProductListActivity.this::onProductClicked);
                     binding.allProductsView.setAdapter(productAdapter);
                 } else {
-                    Toast.makeText(ViewProductListActivity.this, "Failed to load products", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewProductListActivity.this, "Failed to load products",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                Toast.makeText(ViewProductListActivity.this, "Failed to load products: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<ProductsModel>> call, Throwable t) {
+                Toast.makeText(ViewProductListActivity.this, "Failed to load products: "
+                        + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -112,11 +117,11 @@ public class ViewProductListActivity extends AppCompatActivity {
     private void getProducts() {
         products.clear(); // Clear existing products
 
-        // Add hardcoded products
-        products.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
-        products.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
-        products.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
-        products.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
+//        // Add hardcoded products
+//        products.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
+//        products.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
+//        products.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
+//        products.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
 
         // Notify adapter of data change
         if (productAdapter != null) {
@@ -128,15 +133,15 @@ public class ViewProductListActivity extends AppCompatActivity {
     private void getCategoryProducts() {
         categoryList.clear(); // Clear existing category products
 
-        if (type.equals("category1")) {
-            categoryList.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
-            categoryList.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
-            categoryList.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
-            categoryList.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
-        } else if (type.equals("category2")) {
-            categoryList.add(new ProductsModel("Product 5", "100.000 đ", "Description 5", R.drawable.img2a));
-            categoryList.add(new ProductsModel("Product 6", "100.000 đ", "Description 6", R.drawable.img2b));
-        }
+//        if (type.equals("category1")) {
+//            categoryList.add(new ProductsModel("Product 1", "100.000 đ", "Description 1", R.drawable.img2));
+//            categoryList.add(new ProductsModel("Product 2", "100.000 đ", "Description 2", R.drawable.img2a));
+//            categoryList.add(new ProductsModel("Product 3", "100.000 đ", "Description 3", R.drawable.img2b));
+//            categoryList.add(new ProductsModel("Product 4", "100.000 đ", "Description 4", R.drawable.img2));
+//        } else if (type.equals("category2")) {
+//            categoryList.add(new ProductsModel("Product 5", "100.000 đ", "Description 5", R.drawable.img2a));
+//            categoryList.add(new ProductsModel("Product 6", "100.000 đ", "Description 6", R.drawable.img2b));
+//        }
 
         // Notify adapter of data change
         if (gridAdapter != null) {
@@ -148,4 +153,5 @@ public class ViewProductListActivity extends AppCompatActivity {
     private void onProductClicked(ProductsModel product) {
         // Handle click action here, e.g., show product details
     }
+
 }
