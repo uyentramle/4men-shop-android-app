@@ -1,6 +1,7 @@
 package com.formenshop.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +14,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.formenshop.Activities.LoginActivity;
 import com.formenshop.Api.ApiClient;
 import com.formenshop.Api.ApiService;
+import com.formenshop.Config.ITokenManager;
+import com.formenshop.Config.TokenManager;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Response.CartResponse;
+import com.formenshop.Response.LoginResponse;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +39,8 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
     private ProductsModel productsModel;
     private ImageView imageView, imageView2, like;
     private TextView productName, productPrice, productDesc;
+
+    private ITokenManager tokenManager;
     private int click = 0;
 
     private ApiService apiService;
@@ -55,6 +62,7 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
         productDesc = view.findViewById(R.id.pDesc);
         like = view.findViewById(R.id.like);
         apiService = ApiClient.getApiService(getContext());
+        tokenManager = new TokenManager(getActivity().getApplicationContext());
 
         like.setOnClickListener(v -> {
             if (click == 0) {
@@ -63,8 +71,10 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
                 CartRequest cartRequest = new CartRequest();
                 cartRequest.setProductId(2);  // Use the product ID from the model
                 cartRequest.setQuantity(1);
-                Log.d(TAG, "Adding to cart: " + cartRequest);
-                addToCart(cartRequest);
+
+                    addToCart(cartRequest);
+
+
             } else {
                 like.setImageResource(R.drawable.heart2);
                 click--;
@@ -85,20 +95,22 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
         return view;
     }
 
+
     private void addToCart(CartRequest cartRequest) {
-//        ApiService apiService = ApiClient.getApiService(mContext);
-//        Call<String> call = apiService.addCart(cartRequest);
 
         apiService.addCart(cartRequest).enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                 if (response.isSuccessful()) {
-//                    String message = response.body();
-                    Toast.makeText(mContext, "Added to cart successfully: ", Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, "Added to cart successfully: " + message);
+                    Toast.makeText(mContext, "Added to cart successfully", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mContext, "Failed to add to cart", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Failed to add to cart: " + response.message());
+                    if (response.code() == 401) {
+                        Toast.makeText(mContext, "Please,log in before", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(mContext, "Failed to add to cart", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Failed to add to cart: " + response.message());
+                    }
                 }
             }
 
@@ -109,5 +121,10 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
             }
         });
 
+    }
+    private void redirectToLogin() {
+        Intent intent = new Intent(mContext, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mContext.startActivity(intent);
     }
 }
