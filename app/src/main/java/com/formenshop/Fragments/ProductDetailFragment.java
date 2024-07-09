@@ -69,12 +69,9 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
                 like.setImageResource(R.drawable.heart_filled2);
                 click++;
                 CartRequest cartRequest = new CartRequest();
-                cartRequest.setProductId(2);  // Use the product ID from the model
+                cartRequest.setProductId(productsModel.getId());  // Use the product ID from the model
                 cartRequest.setQuantity(1);
-
-                    addToCart(cartRequest);
-
-
+                addToCart(cartRequest);
             } else {
                 like.setImageResource(R.drawable.heart2);
                 click--;
@@ -83,12 +80,15 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
             }
         });
 
-        productName.setText(productsModel.getName());
-        productPrice.setText(productsModel.getPrice());
+        productName.setText(productsModel.getProductName());
+        productPrice.setText(productsModel.getPrice()+"");
         productDesc.setText(productsModel.getDescription());
+        Picasso.get().load(productsModel.getThumbnail()).into(imageView);
+        Picasso.get().load(productsModel.getThumbnail()).into(imageView2);
 
-        Picasso.get().load(productsModel.getImage()).into(imageView);
-        Picasso.get().load(productsModel.getImage()).into(imageView2);
+
+//        Picasso.get().load(productsModel.getImage()).into(imageView);
+//        Picasso.get().load(productsModel.getImage()).into(imageView2);
 
         Log.d(TAG, "Product details loaded: " + productsModel);
 

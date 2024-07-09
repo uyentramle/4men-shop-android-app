@@ -15,6 +15,8 @@ import com.formenshop.Api.ApiClient;
 import com.formenshop.Api.ApiService;
 import com.formenshop.Config.ITokenManager;
 import com.formenshop.Config.TokenManager;
+import com.formenshop.MailLibrary.JavaMailAPI;
+import com.formenshop.Models.CodeCheckModel;
 import com.formenshop.R;
 import com.formenshop.Request.LoginRequest;
 import com.formenshop.Response.LoginResponse;
@@ -31,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private ITokenManager tokenManager;
     private ApiService apiService;
-
+    String code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         tokenManager = new TokenManager(this);
         apiService = ApiClient.getApiService(this);
+        code = CodeCheckModel.generateVerificationCode();
         setContentView(binding.getRoot());
 
         binding.loginBtn.setOnClickListener(v -> {
@@ -52,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        binding.registerBtn.setOnClickListener(v -> goToActivity(RegisterActivity.class));
+        binding.registerBtn.setOnClickListener(v -> goToActivity(RegisterActivity.class,""));
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -61,11 +64,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void goToActivity(Class<?> classx) {
+    private void goToActivity(Class<?> classx ,  String codeCheck) {
         Intent intent = new Intent(this, classx);
+        intent.putExtra("code", codeCheck);
         startActivity(intent);
     }
-
+    private void sendMail(String email) {
+        String message = "GENTLEMAN sends you the login authentication code:. Your authentication code: " + code ;
+        String subject = "ACCOUNT AUTHENTICATION";
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this,email,subject,message);
+        javaMailAPI.execute();
+        goToActivity(VerificationActivity.class,code);
+    }
     private void login(String email, String password) {
         LoginRequest loginRequest = new LoginRequest(email, password);
 
@@ -75,10 +85,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     loginResponse = response.body();
                     if (loginResponse != null) {
+                        Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                         String token = loginResponse.getToken();
                         tokenManager.saveToken(token);
-                        goToActivity(MainActivity.class);
-                        Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+
+                        goToActivity(MainActivity.class,code);
+
                     } else {
                         Toast.makeText(LoginActivity.this, "Login failed: response body is null", Toast.LENGTH_SHORT).show();
                     }
@@ -95,4 +107,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }
