@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         tokenManager.saveToken(token);
                         sendMail(email);
 
+
                     } else {
                         Toast.makeText(LoginActivity.this, "Login failed: response body is null", Toast.LENGTH_SHORT).show();
                     }
