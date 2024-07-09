@@ -2,6 +2,7 @@ package com.formenshop.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.formenshop.Adapters.ViewProductsGridAdapter;
 import com.formenshop.Api.ApiClient;
 import com.formenshop.Api.ApiService;
 import com.formenshop.Models.CategoriesModel;
-import com.formenshop.Models.Product;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
@@ -31,6 +31,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class HomeFragment extends Fragment {
 
@@ -92,20 +93,23 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchNewProducts() {
-        apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+        apiService.getProductTrend().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productList = response.body();
+                    List<ProductsModel> productList = response.body();
 
                     // Convert List<Product> to ArrayList<ProductsModel>
                     ArrayList<ProductsModel> convertedList = new ArrayList<>();
-                    for (Product product : productList) {
+                    for (ProductsModel product : productList) {
                         ProductsModel model = new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                String.valueOf(product.getPrice()),
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2
+                                product.getInventory(),
+                                product.getCategoryId()
                         );
                         convertedList.add(model);
                     }
@@ -132,27 +136,30 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch new products", throwable);
             }
         });
     }
 
     private void fetchProductsAcrossVN() {
-        apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+        apiService.getProductTrend().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productList = response.body();
+                    List<ProductsModel> productList = response.body();
 
                     // Convert List<Product> to ArrayList<ProductsModel>
                     ArrayList<ProductsModel> convertedList = new ArrayList<>();
-                    for (Product product : productList) {
+                    for (ProductsModel product : productList) {
                         ProductsModel model = new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                String.valueOf(product.getPrice()),
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2
+                                product.getInventory(),
+                                product.getCategoryId()
                         );
                         convertedList.add(model);
                     }
@@ -179,27 +186,30 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch products across VN", throwable);
             }
         });
     }
 
     private void fetchBestSellingProducts() {
-        apiService.getProductSeller().enqueue(new Callback<List<Product>>() {
+        apiService.getProductSeller().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productList = response.body();
+                    List<ProductsModel> productList = response.body();
 
                     // Convert List<Product> to ArrayList<ProductsModel>
                     ArrayList<ProductsModel> convertedList = new ArrayList<>();
-                    for (Product product : productList) {
+                    for (ProductsModel product : productList) {
                         ProductsModel model = new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                String.valueOf(product.getPrice()),
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2
+                                product.getInventory(),
+                                product.getCategoryId()
                         );
                         convertedList.add(model);
                     }
@@ -225,7 +235,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch best selling products", throwable);
             }
         });

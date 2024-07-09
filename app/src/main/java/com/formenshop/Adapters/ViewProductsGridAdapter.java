@@ -8,12 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.formenshop.Fragments.ProductDetailFragment;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
@@ -30,7 +27,8 @@ public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGr
     }
 
     // Constructor
-    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList, OnItemClickListener listener) {
+    public ViewProductsGridAdapter(Context context, ArrayList<ProductsModel> productList,
+                                   OnItemClickListener listener) {
         this.context = context;
         this.productList = productList != null ? productList : new ArrayList<>();
         this.listener = listener;
@@ -59,16 +57,17 @@ public class ViewProductsGridAdapter extends RecyclerView.Adapter<ViewProductsGr
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_view_products_grid, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_view_products_grid,
+                parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProductsModel product = productList.get(position);
-        holder.productName.setText(product.getName());
-        holder.productPrice.setText(product.getPrice());
-        Glide.with(context).load(product.getImage()).into(holder.productImage);
+        holder.productName.setText(product.getProductName());
+        holder.productPrice.setText(product.getPrice()+"");
+        Glide.with(context).load(product.getThumbnail()).into(holder.productImage);
 
         // Set the click listener
         holder.itemView.setOnClickListener(v -> {
