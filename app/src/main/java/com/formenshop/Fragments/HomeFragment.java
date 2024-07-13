@@ -2,23 +2,26 @@ package com.formenshop.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.formenshop.Activities.MapShopActivity;
 import com.formenshop.Activities.ViewProductListActivity;
 import com.formenshop.Adapters.CategoriesAdapter;
 import com.formenshop.Adapters.ViewProductsAdapter;
 import com.formenshop.Adapters.ViewProductsGridAdapter;
+import com.formenshop.Api.ApiClient;
 import com.formenshop.Api.ApiService;
 import com.formenshop.Models.CategoriesModel;
-import com.formenshop.Models.Product;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
 
@@ -28,6 +31,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class HomeFragment extends Fragment {
 
@@ -50,6 +54,8 @@ public class HomeFragment extends Fragment {
     private ViewProductsGridAdapter mAdapter4;
 
     Button viewAllBtn;
+    ImageView go_shop;
+    private ApiService apiService;
 
     public HomeFragment() {
     }
@@ -73,12 +79,11 @@ public class HomeFragment extends Fragment {
         productsAcrossVNList = new ArrayList<>();
         bestSellingList = new ArrayList<>();
 
+        apiService = ApiClient.getApiService(getContext());
+
         // Check if arguments are available and fetch if not null
         if (getArguments() != null) {
             categoriesList = getArguments().getParcelableArrayList(ARG_CATEGORIES);
-//            newProductList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
-//            productsAcrossVNList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
-//            bestSellingList = getArguments().getParcelableArrayList(ARG_PRODUCTS);
         }
 
         // Make API calls to fetch data for new products and best selling products
@@ -88,20 +93,23 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchNewProducts() {
-        ApiService.apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+        apiService.getProductTrend().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productList = response.body();
+                    List<ProductsModel> productList = response.body();
 
                     // Convert List<Product> to ArrayList<ProductsModel>
                     ArrayList<ProductsModel> convertedList = new ArrayList<>();
-                    for (Product product : productList) {
+                    for (ProductsModel product : productList) {
                         ProductsModel model = new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                String.valueOf(product.getPrice()),
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2
+                                product.getInventory(),
+                                product.getCategoryId()
                         );
                         convertedList.add(model);
                     }
@@ -111,10 +119,10 @@ public class HomeFragment extends Fragment {
                     // Update RecyclerView adapter for new products view
                     if (mAdapter1 != null) {
                         mAdapter1.updateData(convertedList);
-
                     } else {
                         if (newProductList != null && !newProductList.isEmpty()) {
                             mAdapter1 = new ViewProductsGridAdapter(getContext(), newProductList, product -> {
+                                // Ensure correct arguments are passed to ProductDetailFragment constructor
                                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
                             });
@@ -128,26 +136,30 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch new products", throwable);
             }
         });
     }
+
     private void fetchProductsAcrossVN() {
-        ApiService.apiService.getProductTrend().enqueue(new Callback<List<Product>>() {
+        apiService.getProductTrend().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productList = response.body();
+                    List<ProductsModel> productList = response.body();
 
                     // Convert List<Product> to ArrayList<ProductsModel>
                     ArrayList<ProductsModel> convertedList = new ArrayList<>();
-                    for (Product product : productList) {
+                    for (ProductsModel product : productList) {
                         ProductsModel model = new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                String.valueOf(product.getPrice()),
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2
+                                product.getInventory(),
+                                product.getCategoryId()
                         );
                         convertedList.add(model);
                     }
@@ -163,6 +175,7 @@ public class HomeFragment extends Fragment {
                                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
                             });
+
                             mProductsAcrossVNView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                             mProductsAcrossVNView.setAdapter(mAdapter2);
                         }
@@ -173,26 +186,30 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch products across VN", throwable);
             }
         });
     }
+
     private void fetchBestSellingProducts() {
-        ApiService.apiService.getProductSeller().enqueue(new Callback<List<Product>>() {
+        apiService.getProductSeller().enqueue(new Callback<List<ProductsModel>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<List<ProductsModel>> call, Response<List<ProductsModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productList = response.body();
+                    List<ProductsModel> productList = response.body();
 
                     // Convert List<Product> to ArrayList<ProductsModel>
                     ArrayList<ProductsModel> convertedList = new ArrayList<>();
-                    for (Product product : productList) {
+                    for (ProductsModel product : productList) {
                         ProductsModel model = new ProductsModel(
+                                product.getId(),
+                                product.getPrice(),
                                 product.getProductName(),
-                                String.valueOf(product.getPrice()),
+                                product.getThumbnail(),
                                 product.getDescription(),
-                                R.drawable.img2
+                                product.getInventory(),
+                                product.getCategoryId()
                         );
                         convertedList.add(model);
                     }
@@ -218,7 +235,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch best selling products", throwable);
             }
         });
@@ -233,7 +250,7 @@ public class HomeFragment extends Fragment {
         mProductsAcrossVNView = view.findViewById(R.id.productsAcrossVNView);
         mBestSellingView = view.findViewById(R.id.bestSellerProductsView);
         viewAllBtn = view.findViewById(R.id.viewAllBtn);
-
+        go_shop = (ImageView)view.findViewById(R.id.go_map);
         // Set up RecyclerViews if data is available
         if (categoriesList != null && !categoriesList.isEmpty()) {
             mAdapter3 = new CategoriesAdapter(getContext(), categoriesList);
@@ -250,9 +267,7 @@ public class HomeFragment extends Fragment {
             mNewProductView.setAdapter(mAdapter1);
         }
 
-
-        if (mProductsAcrossVNView != null && !productsAcrossVNList.isEmpty()) {
-//            mAdapter2 = new ViewProductsAdapter(getContext(), productsAcrossVNList);
+        if (productsAcrossVNList != null && !productsAcrossVNList.isEmpty()) {
             mAdapter2 = new ViewProductsAdapter(getContext(), productsAcrossVNList, product -> {
                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
@@ -261,8 +276,7 @@ public class HomeFragment extends Fragment {
             mProductsAcrossVNView.setAdapter(mAdapter2);
         }
 
-
-        if (mBestSellingView != null && !bestSellingList.isEmpty()) {
+        if (bestSellingList != null && !bestSellingList.isEmpty()) {
             mAdapter4 = new ViewProductsGridAdapter(getContext(), bestSellingList, product -> {
                 ProductDetailFragment productDetailFragment = new ProductDetailFragment(getContext(), product);
                 productDetailFragment.show(getFragmentManager(), productDetailFragment.getTag());
@@ -270,14 +284,14 @@ public class HomeFragment extends Fragment {
             mBestSellingView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             mBestSellingView.setAdapter(mAdapter4);
         }
-
-        viewAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ViewProductListActivity.class);
-                intent.putExtra("type", "all");
-                startActivity(intent);
-            }
+        go_shop.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MapShopActivity.class);
+            startActivity(intent);
+        });
+        viewAllBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ViewProductListActivity.class);
+            intent.putExtra("type", "all");
+            startActivity(intent);
         });
 
         return view;

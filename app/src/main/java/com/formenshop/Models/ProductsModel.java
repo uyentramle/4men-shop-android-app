@@ -6,23 +6,37 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class ProductsModel implements Parcelable {
-    private String name;
-    private String price;
+    private int id;
+    private double price;
+    private String productName;
+    private String thumbnail;
     private String description;
-    private int image;
+    private int inventory;
+    private int categoryId;
 
-    public ProductsModel(String name, String price, String description, int image) {
-        this.name = name;
+    // Default constructor
+    public ProductsModel() {
+    }
+
+    // Parameterized constructor
+    public ProductsModel(int id, double price, String productName, String thumbnail, String description, int inventory, int categoryId) {
+        this.id = id;
         this.price = price;
+        this.productName = productName;
+        this.thumbnail = thumbnail;
         this.description = description;
-        this.image = image;
+        this.inventory = inventory;
+        this.categoryId = categoryId;
     }
 
     protected ProductsModel(Parcel in) {
-        name = in.readString();
-        price = in.readString();
+        id = in.readInt();
+        price = in.readDouble();
+        productName = in.readString();
+        thumbnail = in.readString();
         description = in.readString();
-        image = in.readInt();
+        inventory = in.readInt();
+        categoryId = in.readInt();
     }
 
     public static final Creator<ProductsModel> CREATOR = new Creator<ProductsModel>() {
@@ -37,20 +51,37 @@ public class ProductsModel implements Parcelable {
         }
     };
 
-    public String getName() {
-        return name;
+    // Getters and setters
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getDescription() {
@@ -61,12 +92,33 @@ public class ProductsModel implements Parcelable {
         this.description = description;
     }
 
-    public int getImage() {
-        return image;
+    public int getInventory() {
+        return inventory;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", price=" + price +
+                ", productName='" + productName + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", description='" + description + '\'' +
+                ", inventory=" + inventory +
+                ", categoryId=" + categoryId +
+                '}';
     }
 
     @Override
@@ -76,9 +128,12 @@ public class ProductsModel implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(price);
+        dest.writeInt(id);
+        dest.writeDouble(price);
+        dest.writeString(productName);
+        dest.writeString(thumbnail);
         dest.writeString(description);
-        dest.writeInt(image);
+        dest.writeInt(inventory);
+        dest.writeInt(categoryId);
     }
 }

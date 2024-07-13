@@ -106,22 +106,22 @@
                         android:src="@drawable/img2" />
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/amazonIcon"
-                    android:layout_width="89dp"
-                    android:layout_height="69dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    app:cardCornerRadius="10dp">
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/amazonIcon"-->
+<!--                    android:layout_width="89dp"-->
+<!--                    android:layout_height="69dp"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    app:cardCornerRadius="10dp">-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/img2b" />
-                </androidx.cardview.widget.CardView>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:src="@drawable/img2b" />-->
+<!--                </androidx.cardview.widget.CardView>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="89dp"

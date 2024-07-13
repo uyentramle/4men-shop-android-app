@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.formenshop.Activities.LoginActivity;
+import com.formenshop.Config.ITokenManager;
+import com.formenshop.Config.TokenManager;
 import com.formenshop.databinding.FragmentProfileSettingsBinding;
 
 /**
@@ -21,6 +23,7 @@ import com.formenshop.databinding.FragmentProfileSettingsBinding;
  */
 public class ProfileSettingsFragment extends Fragment {
 
+    private ITokenManager tokenManager;
     private FragmentProfileSettingsBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,6 +68,7 @@ public class ProfileSettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        tokenManager = new TokenManager(getActivity().getApplicationContext());
     }
 
     @Override
@@ -79,6 +83,7 @@ public class ProfileSettingsFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
+                    tokenManager.clearToken();
                     getActivity().finish(); // Optional: if you want to remove this activity from the stack
                 }
             });
