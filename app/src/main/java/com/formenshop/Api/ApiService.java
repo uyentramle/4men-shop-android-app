@@ -3,8 +3,10 @@ package com.formenshop.Api;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
+import com.formenshop.Request.RegisterRequest;
 import com.formenshop.Response.CartResponse;
 import com.formenshop.Response.LoginResponse;
+import com.formenshop.Response.RegisterReponse;
 
 import java.util.List;
 
@@ -29,5 +31,7 @@ public interface ApiService {
 
     @POST("api/Cart/addCart")
     Call<CartResponse> addCart(@Body CartRequest cartRequest);
+    @POST("api/Authencation/regiter")
+    Call<RegisterReponse> Register(@Body RegisterRequest register);
 
 }
