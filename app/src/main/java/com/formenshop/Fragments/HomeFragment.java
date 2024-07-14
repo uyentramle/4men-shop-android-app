@@ -191,6 +191,23 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+    private void fetchCategory(){
+        apiService.getAllCategory().enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if(response.isSuccessful()){
+                    List<CategoriesModel> categories = response.body();
+                    categoriesList.clear();
+                    categoriesList.addAll(categories);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.e("API Call", "Failed to fetch categories", t);
+            }
+        });
+    }
 
     private void fetchBestSellingProducts() {
         apiService.getProductSeller().enqueue(new Callback<List<ProductsModel>>() {

@@ -1,5 +1,6 @@
 package com.formenshop.Api;
 
+import com.formenshop.Models.CategoriesModel;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
@@ -28,6 +29,11 @@ public interface ApiService {
     Call<List<ProductsModel>> getAllProduct();
 
     @POST("api/Cart/addCart")
-    Call<CartResponse> addCart(@Body CartRequest cartRequest);
+    Call<CartRequest> addCart(@Body CartRequest cartRequest);
+    @GET("api/Category/getCategory")
+    Call<List<CategoriesModel>> getAllCategory();
+    @GET("api/Cart/getCart")
+    Call<List<CartResponse>> getCart();
+
 
 }
