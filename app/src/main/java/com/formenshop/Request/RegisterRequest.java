@@ -8,7 +8,9 @@ public class RegisterRequest {
 
     // Constructor
 
+
     public RegisterRequest(String codeemail, String email, String password) {
+
         this.codeemail = codeemail;
         this.email = email;
         this.password = password;

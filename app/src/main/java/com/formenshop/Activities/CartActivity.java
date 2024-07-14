@@ -44,6 +44,11 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        CartRequest cartRequest = new CartRequest();
+        //addProductToCart(cartRequest);
+    
+
         recyclerView = findViewById(R.id.cartView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tvTotalMoney = findViewById(R.id.tvTotalMoney);
@@ -55,25 +60,23 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         int userId = GetUserID.getUserIdFromToken(this);
         getCart(userId);
     }
-  
+
+  //    private void addProductToCart(CartRequest cartRequest) {
+//        apiService.addCart(cartRequest).enqueue(new Callback<CartRequest>() {
+//            @Override
+//            public void onResponse(Call<CartRequest> call, Response<CartRequest> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(CartActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CartRequest> call, Throwable t) {
+//                Toast.makeText(CartActivity.this, "Failed to add product to cart", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
     
-     private void addProductToCart(CartRequest cartRequest) {
-        apiService.addCart(cartRequest).enqueue(new Callback<CartRequest>() {
-            @Override
-            public void onResponse(Call<CartRequest> call, Response<CartRequest> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(CartActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CartRequest> call, Throwable t) {
-                Toast.makeText(CartActivity.this, "Failed to add product to cart", Toast.LENGTH_SHORT).show();
-            }
-        });
-   }
-
-
     private void getCart(int userId) {
         apiService.getCart(userId).enqueue(new Callback<List<CartModels>>() {
             @Override
@@ -94,4 +97,5 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         tvTotalMoney.setText(String.valueOf(totalPrice));
 
     }
+
 }
