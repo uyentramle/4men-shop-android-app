@@ -2,11 +2,12 @@ package com.formenshop.Request;
 
 public class RegisterRequest {
     private String codeemail;
-    private String password;
     private String email;
+    private String password;
+
 
     // Constructor
-    public RegisterRequest(String codeemail, String password, String email) {
+    public RegisterRequest(String codeemail,String email, String password) {
         this.codeemail = codeemail;
         this.password = password;
         this.email = email;
