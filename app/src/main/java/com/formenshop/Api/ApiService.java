@@ -4,8 +4,10 @@ import com.formenshop.Models.CategoriesModel;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
+import com.formenshop.Request.RegisterRequest;
 import com.formenshop.Response.CartResponse;
 import com.formenshop.Response.LoginResponse;
+import com.formenshop.Response.RegisterReponse;
 
 import java.util.List;
 
@@ -30,10 +32,16 @@ public interface ApiService {
 
     @POST("api/Cart/addCart")
     Call<CartRequest> addCart(@Body CartRequest cartRequest);
+
+    @POST("api/Authencation/regiter")
+    Call<RegisterReponse> Register(@Body RegisterRequest register);
+
     @GET("api/Category/getCategory")
     Call<List<CategoriesModel>> getAllCategory();
+  
     @GET("api/Cart/getCart")
     Call<List<CartResponse>> getCart();
+
 
 
 }
