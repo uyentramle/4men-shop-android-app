@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment {
                 } else {
                     Log.e("API Call", "Failed to get new products data");
                 }
+
             }
 
             @Override
@@ -183,6 +184,7 @@ public class HomeFragment extends Fragment {
                 } else {
                     Log.e("API Call", "Failed to get products across VN data");
                 }
+
             }
 
             @Override
@@ -232,6 +234,7 @@ public class HomeFragment extends Fragment {
                 } else {
                     Log.e("API Call", "Failed to get best selling products data");
                 }
+
             }
 
             @Override
