@@ -123,39 +123,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         countCart = findViewById(R.id.cartCount);
+
+
+
         apiService = ApiClient.getApiService(this);
         int userId = GetUserID.getUserIdFromToken(this);
         if(userId != 0) {
             getCartInfor(userId);
         }
 
-        // Call API to get cart count based on userId
-//        if (userId != 0) {
-//            apiService.countCart(userId).enqueue(new Callback<CartCount>() {
-//                @Override
-//                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
-//                    if (response.isSuccessful() && response.body() != null) {
-//                        int count = response.body().getCount();
-//
-//                          countCart.setText(String.valueOf(count));
-//                        binding.cartCount.setVisibility(View.GONE);
-//
-//                    } else {
-//                        // Handle unsuccessful API call
-//                        binding.cartCount.setVisibility(View.GONE);
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<CartCount> call, Throwable t) {
-//                    // Handle failure
-//                    binding.cartCount.setVisibility(View.GONE);
-//                }
-//            });
-//        } else {
-//            // If userId is 0, assume no items in cart
-//            binding.cartCount.setVisibility(View.GONE);
-//        }
+
+        if (userId != 0) {
+            apiService.countCart(userId).enqueue(new Callback<CartCount>() {
+                @Override
+                public void onResponse(Call<CartCount> call, Response<CartCount> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        int count = response.body().getCount();
+
+                          countCart.setText(String.valueOf(count));
+                        binding.cartCount.setVisibility(View.VISIBLE);
+
+                    } else {
+                        // Handle unsuccessful API call
+                        binding.cartCount.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartCount> call, Throwable t) {
+                    // Handle failure
+                    binding.cartCount.setVisibility(View.GONE);
+                }
+            });
+        } else {
+            // If userId is 0, assume no items in cart
+            binding.cartCount.setVisibility(View.GONE);
+        }
 
         // Handler for splash layout (same as before)
         Handler handler = new Handler();
