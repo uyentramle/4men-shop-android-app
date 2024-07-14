@@ -1,5 +1,6 @@
 package com.formenshop.Api;
 
+import com.formenshop.Models.CartModels;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
@@ -14,6 +15,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -33,5 +35,7 @@ public interface ApiService {
     Call<CartResponse> addCart(@Body CartRequest cartRequest);
     @POST("api/Authencation/regiter")
     Call<RegisterReponse> Register(@Body RegisterRequest register);
+    @GET("api/Cart/getCart/{userId}")
+    Call<List<CartModels>> getCart(@Path("userId") int userId);
 
 }
