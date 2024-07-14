@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_LONG).show();
                 }
+
             }
 
             @Override

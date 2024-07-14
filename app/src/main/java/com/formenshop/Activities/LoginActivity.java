@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 
     private void goToActivity(Class<?> classx ,  String codeCheck) {
@@ -90,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                         String token = loginResponse.getToken();
                         tokenManager.saveToken(token);
-                       sendMail(email);
+                        goToActivity(MainActivity.class,code);
+                     //  sendMail(email);
 
 
                     } else {
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     String errorMessage = "Invalid email or password";
                     Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
