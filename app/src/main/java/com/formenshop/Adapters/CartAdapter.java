@@ -154,7 +154,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         double total = 0;
         for (int i = 0; i < cartList.size(); i++) {
             if (selectedItems.get(i)) {
-                total += cartList.get(i).getPrice();
+                total += cartList.get(i).getPrice() * cartList.get(i).getQuantity();
             }
         }
         return total;
