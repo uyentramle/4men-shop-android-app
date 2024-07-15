@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         // Create hardcoded data
         ArrayList<ProductsModel> products = new ArrayList<>();
 
-
         // Create hardcoded category data
         ArrayList<CategoriesModel> categories = new ArrayList<>();
         categories.add(new CategoriesModel("https://m.media-amazon.com/images/I/81oBlS3rKXL._UY575_.jpg", "Category 1"));
@@ -77,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41wKsI9yrZL._SY300_SX300_QL70_FMwebp_.jpg", "Category 3"));
         categories.add(new CategoriesModel("https://m.media-amazon.com/images/I/911EKUNq1+L._SL1500_.jpg", "Category 4"));
         categories.add(new CategoriesModel("https://images-eu.ssl-images-amazon.com/images/I/41lICpaGo9L._SX300_SY300_QL70_FMwebp_.jpg", "Category 5"));
-
         mSectionsPagerAdapter = new HomePageFragmentAdapter(getSupportFragmentManager(), 3);
         binding.viewpager.setAdapter(mSectionsPagerAdapter);
         binding.viewpager.setOffscreenPageLimit(0); // Set the number of offscreen pages to keep in memory

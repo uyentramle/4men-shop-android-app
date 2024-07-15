@@ -41,7 +41,7 @@ public class MapShopActivity extends AppCompatActivity implements OnMapReadyCall
         this.gMap = googleMap;
 
         LatLng mapChanh = new LatLng(10.838551, 106.834346);
-        this.gMap.addMarker(new MarkerOptions().position(mapChanh).title("Marker in nhà Chánh"));
+        this.gMap.addMarker(new MarkerOptions().position(mapChanh).title("GENTEL MAN"));
         this.gMap.moveCamera(CameraUpdateFactory.newLatLng(mapChanh));
     }
 }
