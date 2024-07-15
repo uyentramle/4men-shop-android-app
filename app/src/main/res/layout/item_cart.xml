@@ -55,14 +55,13 @@
 
                     <ImageView
                         android:id="@+id/pDeleteCart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:padding="10dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/baseline_delete_forever_24" />
+                        android:src="@drawable/ic_trash"
+                        android:layout_marginRight="10dp"/>
 
-                    />
                 </LinearLayout>
 
 

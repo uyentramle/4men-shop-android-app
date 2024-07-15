@@ -18,4 +18,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="specialColor">#D9653F</color>
 
+
+    <color name="gray">#808080</color>
+    <color name="primary">#6200EE</color>
+
 </resources>
