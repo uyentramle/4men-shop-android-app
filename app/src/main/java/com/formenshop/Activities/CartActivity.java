@@ -3,6 +3,9 @@ package com.formenshop.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.View;
+import android.widget.Button;
+
 import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,18 +46,20 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     CartAdapter cartAdapter;
     TextView tvTotalMoney;
 
-    Button btnCheckout;
+    Button buttonCheckout;
+
+
+
 
     ImageView btnAddQuantity, btnMinusQuantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-        btnCheckout = findViewById(R.id.btnCheckout);
         recyclerView = findViewById(R.id.cartView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tvTotalMoney = findViewById(R.id.tvTotalMoney);
+        buttonCheckout = findViewById(R.id.btnCheckout1);
 
         apiService = ApiClient.getApiService(this);
         cartAdapter = new CartAdapter(this, cartList, this);
@@ -62,7 +67,14 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         int userId = GetUserID.getUserIdFromToken(this);
         getCart(userId);
-        btnCheckout.setOnClickListener(v -> {
+//        buttonCheckout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
+//                startActivity(intent);
+//            }
+
+        buttonCheckout.setOnClickListener(v -> {
             goToCheckout();
         });
     }
@@ -103,7 +115,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     @Override
     public void onItemCheck(double totalPrice) {
         tvTotalMoney.setText(String.valueOf(totalPrice));
-
     }
 
 }

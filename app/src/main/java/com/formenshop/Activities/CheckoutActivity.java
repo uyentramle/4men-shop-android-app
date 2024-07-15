@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,8 +18,7 @@ import com.formenshop.Adapters.CheckoutAdapter;
 import com.formenshop.Api.CreateOrder;
 import com.formenshop.Models.CartModels;
 import com.formenshop.R;
-import com.formenshop.Service.OrderPayment;
-import com.formenshop.Service.PaymentNotification;
+
 
 import org.json.JSONObject;
 
@@ -33,7 +33,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private TextView tvTotalPrice;
     private RadioButton ZaloPay, COD;
-
+    private EditText tenOR, diachiOr, phoneOr;
     private RadioGroup rgPaymentMethod;
     private Button PlaceOrder;
     private RecyclerView rvProductList;
@@ -52,6 +52,10 @@ public class CheckoutActivity extends AppCompatActivity {
         rgPaymentMethod = findViewById(R.id.rgPaymentMethod);
         ZaloPay = findViewById(R.id.rbZaloPay);
         COD = findViewById(R.id.rbCOD);
+        tenOR=findViewById(R.id.etName);
+        diachiOr=findViewById(R.id.etAddress);
+        phoneOr=findViewById(R.id.etPhone);
+
 
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
         checkoutAdapter = new CheckoutAdapter(new ArrayList<>());
@@ -94,29 +98,32 @@ public class CheckoutActivity extends AppCompatActivity {
                         ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
                             @Override
                             public void onPaymentSucceeded(String s, String s1, String s2) {
-                                Intent intent = new Intent(CheckoutActivity.this, OrderPayment.class);
-                                intent.putParcelableArrayListExtra("selectedItems", selectedItems);
-                                intent.putExtra("result", "Thanh toán thành Công");
-                                intent.putExtra("totalPrice", tvTotalPrice.getText().toString());
-                                startActivity(intent);
+                                Intent intent2 = new Intent(CheckoutActivity.this, SuccessActivity.class);
+                                intent2.putParcelableArrayListExtra("selectedItems", selectedItems);
+                                intent2.putExtra("result", "Thanh toán thành Công");
+                                intent2.putExtra("method", orderMethod);
+                                intent2.putExtra("totalPrice", tvTotalPrice.getText().toString());
+                                startActivity(intent2);
                             }
 
                             @Override
                             public void onPaymentCanceled(String s, String s1) {
-                                Intent intent = new Intent(CheckoutActivity.this, OrderPayment.class);
-                                intent.putParcelableArrayListExtra("selectedItems", selectedItems);
-                                intent.putExtra("result", "Hủy thanh toán");
-                                intent.putExtra("totalPrice", tvTotalPrice.getText().toString());
-                                startActivity(intent);
+                                Intent intent3 = new Intent(CheckoutActivity.this, SuccessActivity.class);
+                                intent3.putParcelableArrayListExtra("selectedItems", selectedItems);
+                                intent3.putExtra("result", "Huỷ Thanh Toán");
+                                intent3.putExtra("method", orderMethod);
+                                intent3.putExtra("totalPrice", tvTotalPrice.getText().toString());
+                                startActivity(intent3);
                             }
 
                             @Override
                             public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-                                Intent intent = new Intent(CheckoutActivity.this, OrderPayment.class);
-                                intent.putParcelableArrayListExtra("selectedItems", selectedItems);
-                                intent.putExtra("result", "Lỗi thanh toán");
-                                intent.putExtra("totalPrice", tvTotalPrice.getText().toString());
-                                startActivity(intent);
+                                Intent intent4 = new Intent(CheckoutActivity.this, SuccessActivity.class);
+                                intent4.putParcelableArrayListExtra("selectedItems", selectedItems);
+                                intent4.putExtra("result", "Lỗi thanh toán");
+                                intent4.putExtra("method", orderMethod);
+                                intent4.putExtra("totalPrice", tvTotalPrice.getText().toString());
+                                startActivity(intent4);
                             }
 
                         });
@@ -125,10 +132,11 @@ public class CheckoutActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else{
-                Intent intent1 = new Intent(CheckoutActivity.this, OrderPayment.class);
+            } else {
+                Intent intent1 = new Intent(CheckoutActivity.this, SuccessActivity.class);
                 intent1.putParcelableArrayListExtra("selectedItems", selectedItems);
                 intent1.putExtra("result", "Thanh toán thành Công");
+                intent1.putExtra("method", orderMethod);
                 intent1.putExtra("totalPrice", tvTotalPrice.getText().toString());
                 startActivity(intent1);
             }

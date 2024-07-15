@@ -32,19 +32,6 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CheckoutViewHolder holder, int position) {
-        CartModels item = items.get(position);
-        holder.pNameCart.setText(item.getProductName());
-        holder.pPriceCart.setText(String.format("%.0f VND", item.getPrice()));
-        holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
-
-        Context context = holder.itemView.getContext();
-        Glide.with(context)
-                .load(item.getThumbnail())
-                .into(holder.pImageCart);
-    }
-
-    @Override
     public int getItemCount() {
         return items.size();
     }
@@ -65,5 +52,17 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.Checko
             txtQuantity = itemView.findViewById(R.id.txtQuantity);
             pImageCart = itemView.findViewById(R.id.pImageCart);
         }
+    }
+    @Override
+    public void onBindViewHolder(@NonNull CheckoutViewHolder holder, int position) {
+        CartModels item = items.get(position);
+        holder.pNameCart.setText(item.getProductName());
+        holder.pPriceCart.setText(String.format("%.0f VND", item.getPrice()));
+        holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
+
+        Context context = holder.itemView.getContext();
+        Glide.with(context)
+                .load(item.getThumbnail())
+                .into(holder.pImageCart);
     }
 }
