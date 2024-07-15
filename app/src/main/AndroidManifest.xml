@@ -35,7 +35,7 @@
             android:name=".Service.PaymentNotification"
             android:exported="true" />
         <activity
-            android:name=".Service.OrderPayment"
+            android:name=".Activities.CheckoutActivity"
             android:exported="true"
             android:label="Merchant Demo"
             android:launchMode="singleTask">
@@ -82,7 +82,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.CheckoutActivity"/>
+
         <activity android:name=".Activities.CheckOutTestActivity"   android:exported="true" ></activity>
         <activity android:name=".Activities.VerificationActivity"   android:exported="true" ></activity>
         <meta-data
