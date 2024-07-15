@@ -110,7 +110,6 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
                         Log.e(TAG, "Failed to add to cart: " + response.message());
                     }
                 }
-
             }
 
             @Override

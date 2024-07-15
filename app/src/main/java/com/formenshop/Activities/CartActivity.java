@@ -83,7 +83,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
             public void onResponse(Call<List<CartModels>> call, Response<List<CartModels>> response) {
                 cartList.addAll(response.body());
                 cartAdapter.setCartList(cartList);
-
             }
 
             @Override

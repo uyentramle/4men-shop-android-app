@@ -9,8 +9,6 @@ import com.formenshop.Models.ProductsModel;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
 import com.formenshop.Request.RegisterRequest;
-import com.formenshop.Response.CartCount;
-import com.formenshop.Response.CartInfor;
 import com.formenshop.Response.CartResponse;
 import com.formenshop.Response.LoginResponse;
 import com.formenshop.Response.RegisterReponse;
@@ -45,18 +43,11 @@ public interface ApiService {
     @GET("api/Cart/getCart/{userId}")
     Call<List<CartModels>> getCart(@Path("userId") int userId);
 
-
-    @GET("api/Cart/countCart/{userID}")
-    Call<CartCount> countCart(@Path("userID") int userID);
-    @GET("api/Cart/getCart/{userId}")
-    Call<CartInfor> totalCart(@Path("userId") int userId);
-
     @GET("api/Category/getCategory")
     Call<List<CategoriesModel>> getAllCategory();
   
     @GET("api/Cart/getCart")
     Call<List<CartResponse>> getCart();
-
 
 
 
