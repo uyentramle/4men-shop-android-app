@@ -1,7 +1,10 @@
 package com.formenshop.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import android.widget.TextView;
@@ -39,6 +42,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     CartAdapter cartAdapter;
     TextView tvTotalMoney;
 
+    Button buttonCheckout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         recyclerView = findViewById(R.id.cartView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tvTotalMoney = findViewById(R.id.tvTotalMoney);
+        buttonCheckout = findViewById(R.id.buttonCheckout);
 
         apiService = ApiClient.getApiService(this);
         cartAdapter = new CartAdapter(this, cartList, this);
@@ -59,6 +65,13 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         int userId = GetUserID.getUserIdFromToken(this);
         getCart(userId);
+        buttonCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
   //    private void addProductToCart(CartRequest cartRequest) {
