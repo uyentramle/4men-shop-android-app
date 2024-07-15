@@ -1,5 +1,7 @@
 package com.formenshop.Activities;
 
+import static com.formenshop.Api.ApiClient.apiService;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -94,7 +96,28 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         startActivity(intent);
     }
 
+    public void deleteProductFromCart(int productId, CartModels position,int userID) {
+        apiService.deleteCart(userID,productId).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.body() == true) {
 
+                    cartList.remove(position);
+                    cartAdapter.setCartList(cartList);
+                    cartAdapter.notifyDataSetChanged();
+
+                    Toast.makeText(CartActivity.this, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CartActivity.this, "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toast.makeText(CartActivity.this, "Lỗi khi xóa sản phẩm", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void getCart(int userId) {
         apiService.getCart(userId).enqueue(new Callback<List<CartModels>>() {
             @Override

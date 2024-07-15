@@ -20,7 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static ApiService apiService;
+    public static ApiService apiService;
 
     public static ApiService getApiService(Context context) {
         if (apiService == null) {

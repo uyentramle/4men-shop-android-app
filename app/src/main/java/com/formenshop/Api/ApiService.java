@@ -61,8 +61,8 @@ public interface ApiService {
   
     @GET("api/Cart/getCart")
     Call<List<CartResponse>> getCart();
-    @DELETE("api/Cart/deleteCart")
-    Call<Boolean> deleteCart(@Path("productId") int productId);
+    @DELETE("api/Cart/deleteCart/{userId}/{productId}")
+    Call<Boolean> deleteCart(@Path("userId") int userID ,@Path("productId") int productId);
 
 
 
