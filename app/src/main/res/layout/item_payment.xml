@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="#fff"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/product_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/img2"
-         />
+        android:layout_width="87dp"
+        android:layout_height="85dp"
+        android:src="@drawable/img2" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="244dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
@@ -24,24 +24,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product Name"
-            android:textSize="16sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quantity: 1"
-            android:textSize="14sp"
-            android:textColor="@color/gray" />
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="151dp"
+        android:layout_height="35dp"
+        android:paddingStart="8dp"
         android:text="$10.00"
-        android:textSize="16sp"
         android:textColor="@color/black"
-        android:paddingStart="8dp" />
+        android:textSize="16sp" />
 </LinearLayout>

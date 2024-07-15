@@ -100,6 +100,29 @@ public class CheckoutActivity extends AppCompatActivity {
             String phone = phoneOr.getText().toString().trim();
             String address = diachiOr.getText().toString().trim();
 
+
+            if (name.isEmpty()) {
+                tenOR.setError("nhap ten nhan hang");
+                tenOR.requestFocus();
+                return;
+            }
+            if (phone.isEmpty()) {
+                phoneOr.setError("nhap so dien thoai");
+                phoneOr.requestFocus();
+                return;
+            }
+            if (phone.length() <= 9) {
+                phoneOr.setError("so dien thoai khong dung");
+                phoneOr.requestFocus();
+                return;
+            }
+
+            if (address.isEmpty()) {
+                diachiOr.setError("nhap dia chi");
+                diachiOr.requestFocus();
+                return;
+            }
+
             if (orderMethod != null && !orderMethod.isEmpty() && name.length() > 0 && phone.length() > 0 && address.length() > 0) {
                 List<OrderRequest.OrderItem> orderItems = new ArrayList<>();
                 for (CartModels cartModel : selectedItems) {
