@@ -40,7 +40,8 @@
             android:id="@+id/cartView"
             android:layout_width="match_parent"
             android:layout_height="535dp"
-            android:layout_below="@+id/txt3" />
+            android:layout_below="@+id/txt3"
+            android:padding="10dp"/>
 
         <ImageView
             android:id="@+id/emptyCart"
@@ -56,19 +57,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="168dp"
-            android:layout_marginBottom="96dp"
-            android:text="Total Money:" />
+            android:layout_marginStart="74dp"
+            android:layout_marginBottom="100dp"
+            android:text="Total Money:"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tvTotalMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginBottom="95dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="100dp"
             android:layout_toEndOf="@+id/textView"
-            android:text="0" />
+            android:text="0"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btnCheckout"

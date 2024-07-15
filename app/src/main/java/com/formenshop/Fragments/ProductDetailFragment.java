@@ -68,14 +68,12 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
 
         btnAddToCartAT.setOnClickListener(v -> {
             if (click == 0) {
-                //btnAddToCartAT.setImageResource(R.drawable.heart_filled2);
                 click++;
                 CartRequest cartRequest = new CartRequest();
                 cartRequest.setProductId(productsModel.getId());  // Use the product ID from the model
                 cartRequest.setQuantity(1);
                 addToCart(cartRequest);
             } else {
-               // btnAddToCartAT.setImageResource(R.drawable.heart2);
                 click--;
                 Toast.makeText(mContext, "Removed from cart", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Removed from cart");
