@@ -10,37 +10,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.formenshop.Models.CartModels;
 import com.formenshop.Models.PaymentModels;
 import com.formenshop.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHolder> {
-    private Context context;
-    private List<PaymentModels> productList;
 
-    public PaymentAdapter(Context context, List<PaymentModels> productList) {
-        this.context = context;
+    private ArrayList<CartModels> productList;
+
+    public PaymentAdapter( ArrayList<CartModels> productList) {
+
+        this.productList = productList;
+    }
+
+    public void setProductList(ArrayList<CartModels> productList) {
         this.productList = productList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_payment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment, parent, false);
         return new ViewHolder(view);
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PaymentModels product = productList.get(position);
-        holder.nameTextView.setText(product.getName());
-        holder.quantityTextView.setText("Quantity: " + product.getQuantity());
-        holder.priceTextView.setText("$" + product.getPrice());
-        Picasso.get().load(product.getImageUrl()).into(holder.productImageView);
-    }
-
     @Override
     public int getItemCount() {
         return productList.size();
@@ -52,7 +49,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         TextView quantityTextView;
         TextView priceTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder( View itemView) {
             super(itemView);
             productImageView = itemView.findViewById(R.id.product_image);
             nameTextView = itemView.findViewById(R.id.product_name);
@@ -60,4 +57,14 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
             priceTextView = itemView.findViewById(R.id.product_price);
         }
     }
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        CartModels product = productList.get(position);
+        holder.nameTextView.setText(product.getProductName());
+        holder.quantityTextView.setText("Quantity: " + product.getQuantity());
+        holder.priceTextView.setText("$" + product.getPrice());
+        Context context = holder.itemView.getContext();
+        Glide.with(context).load(product.getThumbnail()).into(holder.productImageView);
+    }
+
 }
