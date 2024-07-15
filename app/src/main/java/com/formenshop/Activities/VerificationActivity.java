@@ -24,7 +24,9 @@ public class VerificationActivity extends AppCompatActivity {
     String codeCheck;
     String codeInput;
     private TextView timerTextView;
+    private CountDownTimer countDownTimer;
     private static final long COUNTDOWN_TIME = 60000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +47,10 @@ public class VerificationActivity extends AppCompatActivity {
                 Confirm();
             }
         });
-
     }
+
     private void startCountdownTimer() {
-        new CountDownTimer(COUNTDOWN_TIME, 1000) {
+        countDownTimer = new CountDownTimer(COUNTDOWN_TIME, 1000) {
             public void onTick(long millisUntilFinished) {
                 long seconds = millisUntilFinished / 1000;
                 timerTextView.setText(String.format("00:%02d", seconds));
@@ -60,12 +62,14 @@ public class VerificationActivity extends AppCompatActivity {
             }
         }.start();
     }
-    private void BackLogin(){
-        Intent intent = new Intent(this,LoginActivity.class);
+
+    private void BackLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        fileList();
+        finish();
     }
-    private void Confirm(){
+
+    private void Confirm() {
         codeInput = cd_1.getText().toString() +
                 cd_2.getText().toString() +
                 cd_3.getText().toString() +
@@ -73,15 +77,14 @@ public class VerificationActivity extends AppCompatActivity {
                 cd_5.getText().toString() +
                 cd_6.getText().toString();
         if (codeInput.equals(codeCheck)) {
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            fileList();
-
+            finish();
         } else {
             Toast.makeText(VerificationActivity.this, "Authentication code is incorrect!", Toast.LENGTH_SHORT).show();
-
         }
     }
-
-
 }

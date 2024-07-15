@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
+    implementation (fileTree(mapOf( "dir" to "libs",  "include" to listOf("*.aar", "*.jar"))))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -89,5 +91,8 @@ dependencies {
     //Map
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation("com.squareup.okhttp3:okhttp:4.6.0")
+    implementation("commons-codec:commons-codec:1.14")
+
 
 }

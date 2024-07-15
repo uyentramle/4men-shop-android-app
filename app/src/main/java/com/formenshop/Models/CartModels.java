@@ -1,6 +1,11 @@
 package com.formenshop.Models;
 
-public class CartModels {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class CartModels implements Parcelable {
     private int productId;
     private int quantity;
     private double price;
@@ -16,6 +21,27 @@ public class CartModels {
         this.thumbnail = thumbnail;
         this.inventory = inventory;
     }
+
+    protected CartModels(Parcel in) {
+        productId = in.readInt();
+        quantity = in.readInt();
+        price = in.readDouble();
+        productName = in.readString();
+        thumbnail = in.readString();
+        inventory = in.readInt();
+    }
+
+    public static final Creator<CartModels> CREATOR = new Creator<CartModels>() {
+        @Override
+        public CartModels createFromParcel(Parcel in) {
+            return new CartModels(in);
+        }
+
+        @Override
+        public CartModels[] newArray(int size) {
+            return new CartModels[size];
+        }
+    };
 
     public int getProductId() {
         return productId;
@@ -64,4 +90,20 @@ public class CartModels {
     public void setInventory(int inventory) {
         this.inventory = inventory;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(productId);
+        dest.writeInt(quantity);
+        dest.writeDouble(price);
+        dest.writeString(productName);
+        dest.writeString(thumbnail);
+        dest.writeInt(inventory);
+    }
+
 }
