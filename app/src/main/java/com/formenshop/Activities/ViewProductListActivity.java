@@ -103,6 +103,7 @@ public class ViewProductListActivity extends AppCompatActivity {
                     Toast.makeText(ViewProductListActivity.this, "Failed to load products",
                             Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override

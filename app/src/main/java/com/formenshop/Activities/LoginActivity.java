@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 
     private void goToActivity(Class<?> classx, String codeCheck) {
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                         sendMail(email);
 
 
+
                     } else {
                         Toast.makeText(LoginActivity.this, "Login failed: response body is null", Toast.LENGTH_SHORT).show();
                     }
@@ -103,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     String errorMessage = "Invalid email or password";
                     Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override

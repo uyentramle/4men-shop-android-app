@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.formenshop.Models.CartModels;
 import com.formenshop.R;
+import com.formenshop.Response.CartCount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private ArrayList<CartModels> cartList;
     private List<Boolean> selectedItems;
     private OnItemCheckListener onItemCheckListener;
+
 
     public CartAdapter(Context context, ArrayList<CartModels> cartList, OnItemCheckListener onItemCheckListener) {
         this.context = context;
