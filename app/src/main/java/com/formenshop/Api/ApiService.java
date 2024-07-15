@@ -8,6 +8,7 @@ import com.formenshop.Models.CartModels;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.Request.CartRequest;
 import com.formenshop.Request.LoginRequest;
+import com.formenshop.Request.OrderRequest;
 import com.formenshop.Request.RegisterRequest;
 import com.formenshop.Response.CartCount;
 import com.formenshop.Response.CartInfor;
@@ -54,6 +55,9 @@ public interface ApiService {
 
     @GET("api/Category/getCategory")
     Call<List<CategoriesModel>> getAllCategory();
+
+    @POST("api/Order/add-Order")
+    Call<CartResponse> createOrder(@Body OrderRequest orderRequest);
   
     @GET("api/Cart/getCart")
     Call<List<CartResponse>> getCart();
