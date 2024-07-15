@@ -94,10 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                         String token = loginResponse.getToken();
                         tokenManager.saveToken(token);
-                        sendMail(email);
-
-
-
+                        //sendMail(email);
+                        goToActivity(MainActivity.class,"123");
                     } else {
                         Toast.makeText(LoginActivity.this, "Login failed: response body is null", Toast.LENGTH_SHORT).show();
                     }

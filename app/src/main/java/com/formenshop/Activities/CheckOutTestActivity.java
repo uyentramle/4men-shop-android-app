@@ -21,26 +21,26 @@ public class CheckOutTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-
-        btnConfirm = findViewById(R.id.buttonConfirm);
-        edtSoluong = findViewById(R.id.editTextSoluong);
-
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edtSoluong.getText() == null || edtSoluong.getText().toString().isEmpty()){
-                    Toast.makeText(CheckOutTestActivity.this, "Nhập số lượng muốn mua", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String soLuongString = edtSoluong.getText().toString();
-                double total = Double.parseDouble(soLuongString) * (double) 10000;
-                Intent intent = new Intent(CheckOutTestActivity.this, OrderPayment.class);
-                intent.putExtra("soluong", edtSoluong.getText().toString());
-                intent.putExtra("total", total);
-                startActivity(intent);
-            }
-        });
+//
+//        btnConfirm = findViewById(R.id.buttonConfirm);
+//        edtSoluong = findViewById(R.id.editTextSoluong);
+//
+//        btnConfirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (edtSoluong.getText() == null || edtSoluong.getText().toString().isEmpty()){
+//                    Toast.makeText(CheckOutTestActivity.this, "Nhập số lượng muốn mua", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                String soLuongString = edtSoluong.getText().toString();
+//                double total = Double.parseDouble(soLuongString) * (double) 10000;
+//                Intent intent = new Intent(CheckOutTestActivity.this, OrderPayment.class);
+//                intent.putExtra("soluong", edtSoluong.getText().toString());
+//                intent.putExtra("total", total);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 }
