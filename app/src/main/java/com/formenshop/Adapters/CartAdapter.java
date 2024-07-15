@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private Context context;
     private ArrayList<CartModels> cartList;
+    private ArrayList<CartModels> checkoutList = new ArrayList<>();
     private List<Boolean> selectedItems;
     private OnItemCheckListener onItemCheckListener;
 
@@ -31,6 +33,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             selectedItems.add(false);
         }
         this.onItemCheckListener = onItemCheckListener;
+        //this.checkoutList = checkoutList;
+    }
+
+    public CartAdapter(Context context, ArrayList<CartModels> cartList) {
+        this.context = context;
+        this.cartList = cartList;
+    }
+
+    public ArrayList<CartModels> getCheckoutList() {
+        return checkoutList;
     }
 
     @NonNull
@@ -47,12 +59,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.cPrice.setText(String.valueOf(cartItem.getPrice()));
         holder.cQuantity.setText(String.valueOf(cartItem.getQuantity()));
         // Load image using Glide or Picasso
-         Glide.with(context).load(cartItem.getThumbnail()).into(holder.pCart);
+        Glide.with(context).load(cartItem.getThumbnail()).into(holder.pCart);
 
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             selectedItems.set(position, isChecked);
-            onItemCheckListener.onItemCheck(getTotalPrice());
+            addProductCheckout(cartList.get(position), isChecked); // Gọi addProductCheckout
+            if (onItemCheckListener != null) {
+                onItemCheckListener.onItemCheck(getTotalPrice());
+            }
         });
+
 
         holder.checkBox.setChecked(selectedItems.get(position));
     }
@@ -71,15 +87,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         notifyDataSetChanged();
     }
 
-    public double getTotalPrice() {
-        double total = 0;
-        for (int i = 0; i < cartList.size(); i++) {
-            if (selectedItems.get(i)) {
-                total += cartList.get(i).getPrice();
-            }
-        }
-        return total;
-    }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView pCart;
@@ -90,7 +97,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             super(itemView);
             pCart = itemView.findViewById(R.id.pImageCart);
             cPname = itemView.findViewById(R.id.pNameCart);
-            cQuantity = itemView.findViewById(R.id.txtQuantityCart);
+            cQuantity = itemView.findViewById(R.id.txtQuantity);
             cPrice = itemView.findViewById(R.id.pPriceCart);
             checkBox = itemView.findViewById(R.id.checkBox);
         }
@@ -98,5 +105,36 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     public interface OnItemCheckListener {
         void onItemCheck(double totalPrice);
+    }
+    private void addProductCheckout(CartModels product, boolean isChecked) {
+        int existingIndex = -1;
+        for (int i = 0; i < checkoutList.size(); i++) {
+            if (checkoutList.get(i).getProductId() == product.getProductId()) {
+                existingIndex = i;
+                break;
+            }
+        }
+
+        if (isChecked) {
+            if (existingIndex == -1) {
+                checkoutList.add(product);
+            } else {
+                // Cập nhật số lượng (nếu cần)
+                // ...
+            }
+        } else {
+            if (existingIndex != -1) {
+                checkoutList.remove(existingIndex);
+            }
+        }
+    }
+    public double getTotalPrice() {
+        double total = 0;
+        for (int i = 0; i < cartList.size(); i++) {
+            if (selectedItems.get(i)) {
+                total += cartList.get(i).getPrice();
+            }
+        }
+        return total;
     }
 }
