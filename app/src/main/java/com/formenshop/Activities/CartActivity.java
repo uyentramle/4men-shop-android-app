@@ -48,7 +48,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
     Button buttonCheckout;
 
-    Button btnCheckout;
+
 
 
     ImageView btnAddQuantity, btnMinusQuantity;
@@ -59,7 +59,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         recyclerView = findViewById(R.id.cartView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tvTotalMoney = findViewById(R.id.tvTotalMoney);
-        buttonCheckout = findViewById(R.id.btnCheckout);
+        buttonCheckout = findViewById(R.id.btnCheckout1);
 
         apiService = ApiClient.getApiService(this);
         cartAdapter = new CartAdapter(this, cartList, this);
@@ -74,7 +74,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 //                startActivity(intent);
 //            }
 
-        btnCheckout.setOnClickListener(v -> {
+        buttonCheckout.setOnClickListener(v -> {
             goToCheckout();
         });
     }

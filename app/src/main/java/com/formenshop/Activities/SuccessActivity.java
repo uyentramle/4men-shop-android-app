@@ -1,6 +1,8 @@
 package com.formenshop.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,7 +15,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.formenshop.Adapters.CheckoutAdapter;
 import com.formenshop.Adapters.PaymentAdapter;
+import com.formenshop.Models.CartModels;
 import com.formenshop.Models.PaymentModels;
 import com.formenshop.Models.ProductsModel;
 import com.formenshop.R;
@@ -25,11 +29,14 @@ public class SuccessActivity extends AppCompatActivity {
 
     private RecyclerView productsRecyclerView;
     private TextView totalAmountTextView;
+    private TextView Method;
     private ImageView successIcon;
     private TextView successMessage;
-    private List<PaymentModels> productList;
-    private double totalAmount;
+    private PaymentAdapter adapter;
+
     private String paymentStatus;
+    private ArrayList<CartModels> selectedItems;
+    private Button home_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,32 +47,40 @@ public class SuccessActivity extends AppCompatActivity {
         totalAmountTextView = findViewById(R.id.total_amount);
         successIcon = findViewById(R.id.success_icon);
         successMessage = findViewById(R.id.success_message);
+        Method = findViewById(R.id.paymentMethod);
+        home_button= findViewById(R.id.home_button);
+        home_button.setOnClickListener(v -> {
+            Intent intent2 = new Intent(SuccessActivity.this,MainActivity.class);
+            startActivity(intent2);
+            finish();
+        });
 
-        paymentStatus ="fail";
+        productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new PaymentAdapter(new ArrayList<>());
+        productsRecyclerView.setAdapter(adapter);
 
-        if (paymentStatus != null && paymentStatus.equals("fail")) {
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            selectedItems = intent.getParcelableArrayListExtra("selectedItems");
+            totalAmountTextView.setText("Total: " + intent.getStringExtra("totalPrice"));
+            paymentStatus = intent.getStringExtra("result");
+            successMessage.setText(paymentStatus);
+            Method.setText("Method: " + intent.getStringExtra("method"));
+
+            if (selectedItems != null) {
+                adapter.setProductList(selectedItems);
+                adapter.notifyDataSetChanged();
+            }
+        }
+        if (paymentStatus.equals("Huỷ Thanh Toán") || paymentStatus.equals("Lỗi thanh toán")) {
             successIcon.setImageResource(R.drawable.fail);
-            successMessage.setText(R.string.payment_failed);
         } else {
             successIcon.setImageResource(R.drawable.check_mark);
-            successMessage.setText(R.string.payment_successful);
         }
-
-        productList = new ArrayList<>();
-        productList.add(new PaymentModels("https://icons.veryicon.com/png/o/education-technology/mobile-campus/fail-53.png", "Product 1", 1, 10.00));
-        productList.add(new PaymentModels("https://icons.veryicon.com/png/o/education-technology/mobile-campus/fail-53.png", "Product 2", 2, 15.00));
 
 
         // Tính tổng số tiền
-        totalAmount = 0;
-        for (PaymentModels product : productList) {
-            totalAmount += product.getPrice() * product.getQuantity();
-        }
-        PaymentAdapter adapter = new PaymentAdapter(this, productList);
-        productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        productsRecyclerView.setAdapter(adapter);
 
-        // Hiển thị tổng số tiền
-        totalAmountTextView.setText("Total: $" + totalAmount);
     }
 }

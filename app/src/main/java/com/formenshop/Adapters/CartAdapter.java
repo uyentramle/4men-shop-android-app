@@ -93,6 +93,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView cPrice, cQuantity, cPname;
         CheckBox checkBox;
 
+        ImageView Minus,AddQ;
+
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             pCart = itemView.findViewById(R.id.pImageCart);

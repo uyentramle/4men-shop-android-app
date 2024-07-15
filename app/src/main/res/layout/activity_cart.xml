@@ -71,7 +71,7 @@
             android:text="0" />
 
         <Button
-            android:id="@+id/btnCheckout"
+            android:id="@+id/btnCheckout1"
             android:layout_width="169dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
