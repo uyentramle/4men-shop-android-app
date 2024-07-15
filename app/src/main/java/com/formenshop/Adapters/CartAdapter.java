@@ -1,5 +1,7 @@
 package com.formenshop.Adapters;
 
+import static com.formenshop.Api.ApiClient.apiService;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,25 +9,33 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.formenshop.Activities.CartActivity;
+import com.formenshop.JWT.GetUserID;
 import com.formenshop.Models.CartModels;
 import com.formenshop.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    private Context context;
+    private CartActivity context;
     private ArrayList<CartModels> cartList;
     private ArrayList<CartModels> checkoutList = new ArrayList<>();
     private List<Boolean> selectedItems;
     private OnItemCheckListener onItemCheckListener;
+    private GetUserID getUserId;
 
-    public CartAdapter(Context context, ArrayList<CartModels> cartList, OnItemCheckListener onItemCheckListener) {
+    public CartAdapter(CartActivity context, ArrayList<CartModels> cartList, OnItemCheckListener onItemCheckListener) {
         this.context = context;
         this.cartList = cartList;
         this.selectedItems = new ArrayList<>(cartList.size());
@@ -36,7 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         //this.checkoutList = checkoutList;
     }
 
-    public CartAdapter(Context context, ArrayList<CartModels> cartList) {
+    public CartAdapter(CartActivity context, ArrayList<CartModels> cartList) {
         this.context = context;
         this.cartList = cartList;
     }
@@ -68,10 +78,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 onItemCheckListener.onItemCheck(getTotalPrice());
             }
         });
+        holder.pDeleteCart.setOnClickListener(v -> {
+            selectedItems.remove(cartItem);
 
+            getTotalPrice();
+
+            context.deleteProductFromCart(cartItem.getProductId(), cartItem, getUserId.getUserIdFromToken(context));
+        });
 
         holder.checkBox.setChecked(selectedItems.get(position));
     }
+
 
     @Override
     public int getItemCount() {
@@ -93,7 +110,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView cPrice, cQuantity, cPname;
         CheckBox checkBox;
 
-        ImageView Minus,AddQ;
+        ImageView Minus, AddQ, pDeleteCart;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,12 +119,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             cQuantity = itemView.findViewById(R.id.txtQuantity);
             cPrice = itemView.findViewById(R.id.pPriceCart);
             checkBox = itemView.findViewById(R.id.checkBox);
+            pDeleteCart = itemView.findViewById(R.id.pDeleteCart);
         }
     }
 
     public interface OnItemCheckListener {
         void onItemCheck(double totalPrice);
     }
+
     private void addProductCheckout(CartModels product, boolean isChecked) {
         int existingIndex = -1;
         for (int i = 0; i < checkoutList.size(); i++) {
@@ -130,6 +149,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         }
     }
+
     public double getTotalPrice() {
         double total = 0;
         for (int i = 0; i < cartList.size(); i++) {
