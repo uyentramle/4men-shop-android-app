@@ -19,6 +19,23 @@
         android:theme="@style/Theme.ForMenShop"
         tools:targetApi="31">
         <activity
+            android:name=".Service.PaymentNotification"
+            android:exported="true" />
+        <activity
+            android:name=".Service.OrderPayment"
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Activities.ViewProductListActivity"
             android:exported="false" />
         <activity
@@ -46,7 +63,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Activities.CheckOutTestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

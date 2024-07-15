@@ -54,11 +54,9 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cartView"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="23dp"
-            android:layout_marginTop="29dp"
             android:layout_marginBottom="27dp"
             android:text="Total Money:" />
 
@@ -77,11 +75,9 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:layout_below="@+id/cartView"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="110dp"
-            android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="12dp"
             android:layout_toEndOf="@+id/tvTotalMoney"
