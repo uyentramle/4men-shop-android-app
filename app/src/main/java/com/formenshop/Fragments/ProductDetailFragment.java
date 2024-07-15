@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,8 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
 
     private Context mContext;
     private ProductsModel productsModel;
-    private ImageView imageView, imageView2, like;
+    private ImageView imageView, imageView2;
+    private Button btnAddToCartAT;
     private TextView productName, productPrice, productDesc;
 
     private ITokenManager tokenManager;
@@ -60,20 +62,20 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
         productName = view.findViewById(R.id.pName);
         productPrice = view.findViewById(R.id.pPrice);
         productDesc = view.findViewById(R.id.pDesc);
-        like = view.findViewById(R.id.like);
+        btnAddToCartAT = view.findViewById(R.id.btnAddToCart);
         apiService = ApiClient.getApiService(getContext());
         tokenManager = new TokenManager(getActivity().getApplicationContext());
 
-        like.setOnClickListener(v -> {
+        btnAddToCartAT.setOnClickListener(v -> {
             if (click == 0) {
-                like.setImageResource(R.drawable.heart_filled2);
+                //btnAddToCartAT.setImageResource(R.drawable.heart_filled2);
                 click++;
                 CartRequest cartRequest = new CartRequest();
                 cartRequest.setProductId(productsModel.getId());  // Use the product ID from the model
                 cartRequest.setQuantity(1);
                 addToCart(cartRequest);
             } else {
-                like.setImageResource(R.drawable.heart2);
+               // btnAddToCartAT.setImageResource(R.drawable.heart2);
                 click--;
                 Toast.makeText(mContext, "Removed from cart", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Removed from cart");
