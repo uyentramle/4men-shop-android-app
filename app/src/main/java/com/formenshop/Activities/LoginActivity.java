@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private ITokenManager tokenManager;
     private ApiService apiService;
     String code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        binding.registerBtn.setOnClickListener(v -> goToActivity(RegisterActivity.class,""));
+        binding.registerBtn.setOnClickListener(v -> goToActivity(RegisterActivity.class, ""));
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -67,18 +68,20 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void goToActivity(Class<?> classx ,  String codeCheck) {
+    private void goToActivity(Class<?> classx, String codeCheck) {
         Intent intent = new Intent(this, classx);
         intent.putExtra("code", codeCheck);
         startActivity(intent);
     }
+
     private void sendMail(String email) {
-        String message = "GENTLEMAN sends you the login authentication code:. Your authentication code: " + code ;
+        String message = "GENTLEMAN sends you the login authentication code:. Your authentication code: " + code;
         String subject = "ACCOUNT AUTHENTICATION";
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this,email,subject,message);
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this, email, subject, message);
         javaMailAPI.execute();
-        goToActivity(VerificationActivity.class,code);
+        goToActivity(VerificationActivity.class, code);
     }
+
     private void login(String email, String password) {
         LoginRequest loginRequest = new LoginRequest(email, password);
 
@@ -91,10 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                         String token = loginResponse.getToken();
                         tokenManager.saveToken(token);
-                        goToActivity(MainActivity.class,code);
-                     //  sendMail(email);
-
-
+                        //sendMail(email);
+                        goToActivity(MainActivity.class,"123");
                     } else {
                         Toast.makeText(LoginActivity.this, "Login failed: response body is null", Toast.LENGTH_SHORT).show();
                     }
@@ -112,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     private void saveToken(String token) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

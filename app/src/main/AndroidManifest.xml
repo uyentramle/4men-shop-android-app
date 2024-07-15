@@ -34,6 +34,24 @@
             android:name=".Activities.SuccessActivity"
             android:exported="false" />
         <activity
+            android:name=".Service.PaymentNotification"
+            android:exported="false" />
+
+        <activity
+            android:name=".Service.OrderPayment"
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Activities.ViewProductListActivity"
             android:exported="false" />
         <activity
@@ -69,6 +87,10 @@
         <activity
             android:name=".Activities.VerificationActivity"
             android:exported="true" />
+
+
+        <activity android:name=".Activities.CheckoutActivity"/>
+        <activity android:name=".Activities.CheckOutTestActivity"   android:exported="true" ></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

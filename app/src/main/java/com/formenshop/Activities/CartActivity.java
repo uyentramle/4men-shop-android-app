@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
+
+import android.os.Parcelable;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import android.widget.TextView;
@@ -38,26 +42,24 @@ import retrofit2.Response;
 public class CartActivity extends AppCompatActivity implements CartAdapter.OnItemCheckListener {
     ApiService apiService;
     RecyclerView recyclerView;
-    ArrayList<CartModels> cartList = new ArrayList<>();
+    ArrayList<CartModels> cartList = new ArrayList<>() ;
     CartAdapter cartAdapter;
     TextView tvTotalMoney;
 
     Button buttonCheckout;
 
+    Button btnCheckout;
 
+
+    ImageView btnAddQuantity, btnMinusQuantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-        CartRequest cartRequest = new CartRequest();
-        //addProductToCart(cartRequest);
-    
-
         recyclerView = findViewById(R.id.cartView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tvTotalMoney = findViewById(R.id.tvTotalMoney);
-        buttonCheckout = findViewById(R.id.buttonCheckout);
+        buttonCheckout = findViewById(R.id.btnCheckout);
 
         apiService = ApiClient.getApiService(this);
         cartAdapter = new CartAdapter(this, cartList, this);
@@ -65,31 +67,34 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         int userId = GetUserID.getUserIdFromToken(this);
         getCart(userId);
-        buttonCheckout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
-                startActivity(intent);
-            }
+//        buttonCheckout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(CartActivity.this, SuccessActivity.class);
+//                startActivity(intent);
+//            }
+
+        btnCheckout.setOnClickListener(v -> {
+            goToCheckout();
         });
     }
 
-  //    private void addProductToCart(CartRequest cartRequest) {
-//        apiService.addCart(cartRequest).enqueue(new Callback<CartRequest>() {
-//            @Override
-//            public void onResponse(Call<CartRequest> call, Response<CartRequest> response) {
-//                if (response.isSuccessful()) {
-//                    Toast.makeText(CartActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CartRequest> call, Throwable t) {
-//                Toast.makeText(CartActivity.this, "Failed to add product to cart", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-    
+    private void goToCheckout() {
+        ArrayList<CartModels> selectedItems = cartAdapter.getCheckoutList();
+
+        if (selectedItems.isEmpty()) {
+            Toast.makeText(this, "No items selected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+        //intent.putParcelableArrayListExtra("selectedItems",  selectedItems);
+        intent.putParcelableArrayListExtra("selectedItems", selectedItems);
+        intent.putExtra("totalPrice", cartAdapter.getTotalPrice());
+        startActivity(intent);
+    }
+
+
     private void getCart(int userId) {
         apiService.getCart(userId).enqueue(new Callback<List<CartModels>>() {
             @Override
@@ -106,10 +111,10 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         });
     }
 
+
     @Override
     public void onItemCheck(double totalPrice) {
         tvTotalMoney.setText(String.valueOf(totalPrice));
-
     }
 
 }
