@@ -96,9 +96,9 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
 
     private void addToCart(CartRequest cartRequest) {
 
-        apiService.addCart(cartRequest).enqueue(new Callback<CartResponse>() {
+        apiService.addCart(cartRequest).enqueue(new Callback<CartRequest>() {
             @Override
-            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+            public void onResponse(Call<CartRequest> call, Response<CartRequest> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(mContext, "Added to cart successfully", Toast.LENGTH_SHORT).show();
                 } else {
@@ -110,10 +110,11 @@ public class ProductDetailFragment extends BottomSheetDialogFragment {
                         Log.e(TAG, "Failed to add to cart: " + response.message());
                     }
                 }
+
             }
 
             @Override
-            public void onFailure(Call<CartResponse> call, Throwable throwable) {
+            public void onFailure(Call<CartRequest> call, Throwable throwable) {
                 Toast.makeText(mContext, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Error adding to cart", throwable);
             }

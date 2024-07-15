@@ -72,7 +72,6 @@
                     android:elevation="10dp"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:text="1"
                     android:textColor="@color/white"
                     android:visibility="gone" />
             </RelativeLayout>

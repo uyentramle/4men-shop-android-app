@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment {
                 } else {
                     Log.e("API Call", "Failed to get new products data");
                 }
+
             }
 
             @Override
@@ -183,11 +184,29 @@ public class HomeFragment extends Fragment {
                 } else {
                     Log.e("API Call", "Failed to get products across VN data");
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<ProductsModel>> call, Throwable throwable) {
                 Log.e("API Call", "Failed to fetch products across VN", throwable);
+            }
+        });
+    }
+    private void fetchCategory(){
+        apiService.getAllCategory().enqueue(new Callback<List<CategoriesModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriesModel>> call, Response<List<CategoriesModel>> response) {
+                if(response.isSuccessful()){
+                    List<CategoriesModel> categories = response.body();
+                    categoriesList.clear();
+                    categoriesList.addAll(categories);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriesModel>> call, Throwable t) {
+                Log.e("API Call", "Failed to fetch categories", t);
             }
         });
     }
@@ -232,6 +251,7 @@ public class HomeFragment extends Fragment {
                 } else {
                     Log.e("API Call", "Failed to get best selling products data");
                 }
+
             }
 
             @Override

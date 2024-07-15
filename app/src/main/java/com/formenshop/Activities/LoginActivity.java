@@ -1,6 +1,8 @@
 package com.formenshop.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -62,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 
     private void goToActivity(Class<?> classx ,  String codeCheck) {
@@ -88,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                         String token = loginResponse.getToken();
                         tokenManager.saveToken(token);
-                        sendMail(email);
+                        goToActivity(MainActivity.class,code);
+                     //  sendMail(email);
 
 
                     } else {
@@ -98,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     String errorMessage = "Invalid email or password";
                     Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -107,5 +112,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void saveToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("JWT_TOKEN", token);
+        editor.apply();
+    }
 }

@@ -79,6 +79,9 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    // token
+    implementation ("com.auth0.android:jwtdecode:2.0.0")
     //JavaMail
     implementation(files("libs/activation.jar"))
     implementation(files("libs/additionnal.jar"))
